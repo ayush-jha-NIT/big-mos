@@ -1,0 +1,1214 @@
+diff --git a/README.md b/README.md
+index e927b0f..cb76f91 100644
+--- a/README.md
++++ b/README.md
+@@ -1,44 +1,51 @@
+ # Cafe Big Mo's
+ 
+-Next.js storefront for Cafe Big Mo's.
++Next.js storefront and WhatsApp ordering website for Cafe Big Mo's.
+ 
+-## Development
++## Implemented
+ 
+-```bash
+-npm install
+-npm run dev
+-```
++### Part 0 — Foundation
++
++- Next.js App Router + TypeScript
++- Tailwind CSS
++- Framer Motion
++- Lucide React
++- Zustand
++- React Hook Form + Zod
++- ESLint + Prettier
++- project architecture and verification scripts
++
++### Part 1 — Brand system
+ 
+-## Verification
++- Big Mo's colour and typography tokens
++- reusable UI primitives
++- transparent cafe logo
++- optimized Prayagraj and Haldwani outlet photography
++
++### Part 2 — Global layout
++
++- responsive sticky header
++- active desktop navigation
++- animated mobile navigation drawer
++- global footer
++- mobile order bar
++- breadcrumbs
++- reusable page hero
++- reusable CTA section
++- reusable outlet mini-card
++- placeholder routes for all global navigation targets
++- corrected Prayagraj and Haldwani map links
++
++## Commands
+ 
+ ```bash
++npm run dev
+ npm run lint
+ npm run typecheck
+ npm run build
+-```
+-
+-Or run all checks:
+-
+-```bash
+ npm run verify
+ ```
+ 
+-## Implementation status
+-
+-- Part 0: project foundation — complete
+-- Part 1: assets + brand design system — complete
+-- Part 2 onward: global layout, data, home, menu, cart, checkout and production pages
+-
+-## Part 1 assets
+-
+-Real supplied photography is organized by outlet:
+-
+-```text
+-public/
+-├── branding/logo.webp
+-└── outlets/
+-    ├── prayagraj/
+-    └── haldwani/
+-```
++## Part 2 visual verification
+ 
+-Images are optimized to WebP for production use. The original supplied source images are not duplicated inside the repository.
++Run `npm run dev`, then check `/` plus `/menu`, `/about`, `/gallery`, `/outlets`, `/contact` and `/bag` at desktop and mobile widths. The header, mobile drawer, footer and fixed mobile ordering bar should remain consistent across routes.
+diff --git a/src/app/about/page.tsx b/src/app/about/page.tsx
+new file mode 100644
+index 0000000..371cb8e
+--- /dev/null
++++ b/src/app/about/page.tsx
+@@ -0,0 +1,28 @@
++import type { Metadata } from "next";
++
++import { PageHero } from "@/components/layout";
++
++export const metadata: Metadata = {
++  title: "About Big Mo's",
++  description: "Meet Cafe Big Mo's and the story behind its value-focused, pure vegetarian cafe experience.",
++};
++
++export default function Page() {
++  return (
++    <main>
++      <PageHero
++        eyebrow="Our story"
++        title="About Big Mo's"
++        description="Meet Cafe Big Mo's and the story behind its value-focused, pure vegetarian cafe experience."
++        breadcrumbs={[{ label: "About Big Mo's" }]}
++      />
++      <section className="py-16 sm:py-20">
++        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
++          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
++            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
++          </p>
++        </div>
++      </section>
++    </main>
++  );
++}
+diff --git a/src/app/bag/page.tsx b/src/app/bag/page.tsx
+new file mode 100644
+index 0000000..abf44b3
+--- /dev/null
++++ b/src/app/bag/page.tsx
+@@ -0,0 +1,28 @@
++import type { Metadata } from "next";
++
++import { PageHero } from "@/components/layout";
++
++export const metadata: Metadata = {
++  title: "Your Bag",
++  description: "Review the items in your Cafe Big Mo's bag before checkout. Cart functionality arrives in Part 6 and Part 7.",
++};
++
++export default function Page() {
++  return (
++    <main>
++      <PageHero
++        eyebrow="Your order"
++        title="Your Bag"
++        description="Review the items in your Cafe Big Mo's bag before checkout. Cart functionality arrives in Part 6 and Part 7."
++        breadcrumbs={[{ label: "Your Bag" }]}
++      />
++      <section className="py-16 sm:py-20">
++        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
++          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
++            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
++          </p>
++        </div>
++      </section>
++    </main>
++  );
++}
+diff --git a/src/app/contact/page.tsx b/src/app/contact/page.tsx
+new file mode 100644
+index 0000000..5187033
+--- /dev/null
++++ b/src/app/contact/page.tsx
+@@ -0,0 +1,28 @@
++import type { Metadata } from "next";
++
++import { PageHero } from "@/components/layout";
++
++export const metadata: Metadata = {
++  title: "Contact",
++  description: "Contact Cafe Big Mo's for outlet information and general enquiries.",
++};
++
++export default function Page() {
++  return (
++    <main>
++      <PageHero
++        eyebrow="Talk to us"
++        title="Contact"
++        description="Contact Cafe Big Mo's for outlet information and general enquiries."
++        breadcrumbs={[{ label: "Contact" }]}
++      />
++      <section className="py-16 sm:py-20">
++        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
++          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
++            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
++          </p>
++        </div>
++      </section>
++    </main>
++  );
++}
+diff --git a/src/app/gallery/page.tsx b/src/app/gallery/page.tsx
+new file mode 100644
+index 0000000..963f1f0
+--- /dev/null
++++ b/src/app/gallery/page.tsx
+@@ -0,0 +1,28 @@
++import type { Metadata } from "next";
++
++import { PageHero } from "@/components/layout";
++
++export const metadata: Metadata = {
++  title: "Gallery",
++  description: "A future home for real food, ambience and outlet photography from Prayagraj and Haldwani.",
++};
++
++export default function Page() {
++  return (
++    <main>
++      <PageHero
++        eyebrow="Inside Big Mo's"
++        title="Gallery"
++        description="A future home for real food, ambience and outlet photography from Prayagraj and Haldwani."
++        breadcrumbs={[{ label: "Gallery" }]}
++      />
++      <section className="py-16 sm:py-20">
++        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
++          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
++            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
++          </p>
++        </div>
++      </section>
++    </main>
++  );
++}
+diff --git a/src/app/globals.css b/src/app/globals.css
+index 6ebdd01..69c477f 100644
+--- a/src/app/globals.css
++++ b/src/app/globals.css
+@@ -107,3 +107,14 @@ svg {
+     transition-duration: 0.01ms !important;
+   }
+ }
++
++/* Shared global-layout helpers */
++body {
++  overflow-x: clip;
++}
++
++@supports not (overflow: clip) {
++  body {
++    overflow-x: hidden;
++  }
++}
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index 4039525..c739343 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -1,6 +1,8 @@
+ import type { Metadata, Viewport } from "next";
+ import type { ReactNode } from "react";
+ 
++import { Footer, Header, MobileOrderBar } from "@/components/layout";
++
+ import "./globals.css";
+ 
+ export const metadata: Metadata = {
+@@ -24,7 +26,20 @@ type RootLayoutProps = Readonly<{
+ export default function RootLayout({ children }: RootLayoutProps) {
+   return (
+     <html lang="en">
+-      <body>{children}</body>
++      <body>
++        <a
++          href="#main-content"
++          className="fixed left-3 top-3 z-[100] -translate-y-24 rounded-full bg-[var(--brand-yellow)] px-4 py-2 text-sm font-extrabold text-[var(--brand-black)] transition focus:translate-y-0"
++        >
++          Skip to content
++        </a>
++        <Header />
++        <div id="main-content" className="min-h-[70vh]">
++          {children}
++        </div>
++        <Footer />
++        <MobileOrderBar />
++      </body>
+     </html>
+   );
+ }
+diff --git a/src/app/menu/page.tsx b/src/app/menu/page.tsx
+new file mode 100644
+index 0000000..37a8881
+--- /dev/null
++++ b/src/app/menu/page.tsx
+@@ -0,0 +1,28 @@
++import type { Metadata } from "next";
++
++import { PageHero } from "@/components/layout";
++
++export const metadata: Metadata = {
++  title: "Menu",
++  description: "Browse Cafe Big Mo's pure vegetarian menu. Full category filtering and ordering arrive in Part 5.",
++};
++
++export default function Page() {
++  return (
++    <main>
++      <PageHero
++        eyebrow="Eat at Big Mo's"
++        title="Menu"
++        description="Browse Cafe Big Mo's pure vegetarian menu. Full category filtering and ordering arrive in Part 5."
++        breadcrumbs={[{ label: "Menu" }]}
++      />
++      <section className="py-16 sm:py-20">
++        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
++          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
++            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
++          </p>
++        </div>
++      </section>
++    </main>
++  );
++}
+diff --git a/src/app/outlets/page.tsx b/src/app/outlets/page.tsx
+new file mode 100644
+index 0000000..40cecd0
+--- /dev/null
++++ b/src/app/outlets/page.tsx
+@@ -0,0 +1,28 @@
++import type { Metadata } from "next";
++
++import { PageHero } from "@/components/layout";
++
++export const metadata: Metadata = {
++  title: "Outlets",
++  description: "Explore Cafe Big Mo's locations in Prayagraj and Haldwani.",
++};
++
++export default function Page() {
++  return (
++    <main>
++      <PageHero
++        eyebrow="Find Big Mo's"
++        title="Outlets"
++        description="Explore Cafe Big Mo's locations in Prayagraj and Haldwani."
++        breadcrumbs={[{ label: "Outlets" }]}
++      />
++      <section className="py-16 sm:py-20">
++        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
++          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
++            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
++          </p>
++        </div>
++      </section>
++    </main>
++  );
++}
+diff --git a/src/app/page.tsx b/src/app/page.tsx
+index 1553603..276a6a3 100644
+--- a/src/app/page.tsx
++++ b/src/app/page.tsx
+@@ -1,151 +1,66 @@
+-import { ArrowRight, MapPin, ShoppingBag } from "lucide-react";
++import { ArrowRight } from "lucide-react";
++import Link from "next/link";
+ 
+-import {
+-  Badge,
+-  BrandMark,
+-  Button,
+-  Card,
+-  Container,
+-  Heading,
+-  ImageCard,
+-  Price,
+-  Section,
+-  SectionHeading,
+-} from "@/components/ui";
+-
+-const swatches = [
+-  { name: "Big Mo's Red", value: "#ED1C24", className: "bg-[var(--brand-red)] text-white" },
+-  {
+-    name: "Big Mo's Yellow",
+-    value: "#FFD400",
+-    className: "bg-[var(--brand-yellow)] text-[var(--brand-black)]",
+-  },
+-  { name: "Charcoal", value: "#0B0D0D", className: "bg-[var(--brand-black)] text-white" },
+-  { name: "Cafe Cream", value: "#FFF7E8", className: "bg-[var(--brand-cream)] text-black" },
+-];
++import { CTASection, OutletMiniCard, PageHero } from "@/components/layout";
++import { buttonStyles } from "@/components/ui/button";
++import { Container } from "@/components/ui/container";
++import { Section } from "@/components/ui/section";
++import { SectionHeading } from "@/components/ui/section-heading";
+ 
+ export default function HomePage() {
+   return (
+     <main>
+-      <section className="overflow-hidden bg-[var(--brand-black)] py-12 text-white sm:py-16">
+-        <Container className="grid items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+-          <div>
+-            <Badge>Part 1 · Brand System</Badge>
+-            <Heading level={1} className="mt-5 text-white">
+-              Cafe <span className="text-[var(--brand-yellow)]">Big Mo&apos;s</span>
+-            </Heading>
+-            <p className="mt-5 max-w-2xl text-base leading-7 text-white/70 sm:text-lg">
+-              The production brand palette, reusable UI primitives and real outlet assets are now
+-              wired into the project. Page-specific design begins in Part 2.
+-            </p>
+-            <div className="mt-7 flex flex-wrap gap-3">
+-              <Button size="lg">
+-                Primary Action <ArrowRight size={18} />
+-              </Button>
+-              <Button variant="secondary" size="lg">
+-                Secondary Action
+-              </Button>
+-            </div>
+-          </div>
+-          <div className="mx-auto flex aspect-square w-full max-w-sm items-center justify-center rounded-full bg-[var(--brand-yellow)] p-5 shadow-[var(--shadow-strong)]">
+-            <BrandMark size={320} priority className="max-h-full max-w-full" />
+-          </div>
+-        </Container>
+-      </section>
++      <PageHero
++        eyebrow="Part 2 · Global Layout"
++        title={
++          <>
++            Big flavour. <span className="text-[var(--brand-yellow)]">Clean structure.</span>
++          </>
++        }
++        description="The global header, mobile navigation, footer, shared page hero, outlet cards and mobile ordering bar are now ready for the real pages that follow."
++        image="/outlets/prayagraj/exterior-golden-hour.webp"
++        imageAlt="Cafe Big Mo's Prayagraj outlet at golden hour"
++        actions={
++          <>
++            <Link href="/menu" className={buttonStyles({ size: "lg" })}>
++              Explore Menu <ArrowRight size={18} />
++            </Link>
++            <Link href="/outlets" className={buttonStyles({ variant: "secondary", size: "lg" })}>
++              Find an Outlet
++            </Link>
++          </>
++        }
++      />
+ 
+       <Section>
+         <Container>
+           <SectionHeading
+-            eyebrow="Brand foundation"
+-            title="One visual system."
+-            accent="No random colours."
+-            description="These tokens are the shared source of truth for future pages, product cards, cart UI, checkout and outlet sections."
+-          />
+-
+-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+-            {swatches.map((swatch) => (
+-              <Card key={swatch.name} className="overflow-hidden">
+-                <div className={`h-28 ${swatch.className}`} />
+-                <div className="p-4">
+-                  <p className="font-bold">{swatch.name}</p>
+-                  <p className="mt-1 text-sm text-[var(--brand-muted)]">{swatch.value}</p>
+-                </div>
+-              </Card>
+-            ))}
+-          </div>
+-        </Container>
+-      </Section>
+-
+-      <Section className="bg-white/55">
+-        <Container>
+-          <SectionHeading
+-            eyebrow="Component preview"
+-            title="Reusable before"
+-            accent="repeatable"
+-            description="Buttons, badges, price treatment, cards and typography are established once and reused everywhere."
+-          />
+-
+-          <div className="mt-8 grid gap-6 lg:grid-cols-2">
+-            <Card className="p-6 sm:p-8">
+-              <Badge variant="red">Bestseller</Badge>
+-              <Heading level={3} className="mt-4">
+-                Crunchy Veg Burger
+-              </Heading>
+-              <p className="mt-3 leading-7 text-[var(--brand-muted)]">
+-                Sample product treatment for the future menu and bag interfaces.
+-              </p>
+-              <div className="mt-6 flex items-center justify-between gap-4">
+-                <Price value={60} />
+-                <Button>
+-                  <ShoppingBag size={17} /> Add to Bag
+-                </Button>
+-              </div>
+-            </Card>
+-
+-            <Card className="p-6 sm:p-8">
+-              <Badge variant="dark">Outlet</Badge>
+-              <Heading level={3} className="mt-4">
+-                Two real locations
+-              </Heading>
+-              <p className="mt-3 leading-7 text-[var(--brand-muted)]">
+-                Prayagraj and Haldwani imagery is now stored separately so the site never mixes the
+-                two outlet identities.
+-              </p>
+-              <Button variant="ghost" className="mt-6">
+-                <MapPin size={17} /> Outlet component style
+-              </Button>
+-            </Card>
+-          </div>
+-        </Container>
+-      </Section>
+-
+-      <Section>
+-        <Container>
+-          <SectionHeading
+-            eyebrow="Real cafe assets"
+-            title="Prayagraj &"
+-            accent="Haldwani"
+-            description="Optimized WebP versions of the supplied real outlet photography are included in the project and ready for Home, About, Gallery and Outlets."
++            eyebrow="Two real locations"
++            title="Visit Big Mo's"
++            accent="near you"
++            description="The real supplied outlet photography and corrected Google Maps links are already connected to reusable location cards."
+           />
+           <div className="mt-8 grid gap-5 md:grid-cols-2">
+-            <ImageCard
+-              src="/outlets/prayagraj/exterior-golden-hour.webp"
+-              alt="Cafe Big Mo's Prayagraj storefront at golden hour"
+-              title="Prayagraj"
+-              subtitle="Real supplied outlet photography"
+-              className="min-h-[360px] md:min-h-[460px]"
+-              priority
++            <OutletMiniCard
++              name="Big Mo's Prayagraj"
++              location="Tagore Town, Prayagraj"
++              image="/outlets/prayagraj/exterior-golden-hour.webp"
++              mapUrl="https://maps.app.goo.gl/PvMcasc6uue8SmC3A"
+             />
+-            <ImageCard
+-              src="/outlets/haldwani/storefront.webp"
+-              alt="Cafe Big Mo's Haldwani storefront"
+-              title="Haldwani"
+-              subtitle="Real supplied outlet photography"
+-              className="min-h-[360px] md:min-h-[460px]"
++            <OutletMiniCard
++              name="Big Mo's Haldwani"
++              location="Haldwani, Uttarakhand"
++              image="/outlets/haldwani/storefront.webp"
++              mapUrl="https://maps.app.goo.gl/hF2xU94AXTqUMyd3A"
+             />
+           </div>
+         </Container>
+       </Section>
++
++      <CTASection
++        title="The shell is ready. The real Home page comes next."
++        description="Part 2 deliberately keeps page-specific content light while locking the navigation, responsive shell and reusable global sections."
++      />
+     </main>
+   );
+ }
+diff --git a/src/app/privacy-policy/page.tsx b/src/app/privacy-policy/page.tsx
+new file mode 100644
+index 0000000..faa2ccf
+--- /dev/null
++++ b/src/app/privacy-policy/page.tsx
+@@ -0,0 +1,28 @@
++import type { Metadata } from "next";
++
++import { PageHero } from "@/components/layout";
++
++export const metadata: Metadata = {
++  title: "Privacy Policy",
++  description: "Cafe Big Mo's privacy information. Full legal content arrives in Part 10.",
++};
++
++export default function Page() {
++  return (
++    <main>
++      <PageHero
++        eyebrow="Legal"
++        title="Privacy Policy"
++        description="Cafe Big Mo's privacy information. Full legal content arrives in Part 10."
++        breadcrumbs={[{ label: "Privacy Policy" }]}
++      />
++      <section className="py-16 sm:py-20">
++        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
++          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
++            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
++          </p>
++        </div>
++      </section>
++    </main>
++  );
++}
+diff --git a/src/app/terms/page.tsx b/src/app/terms/page.tsx
+new file mode 100644
+index 0000000..e2e6993
+--- /dev/null
++++ b/src/app/terms/page.tsx
+@@ -0,0 +1,28 @@
++import type { Metadata } from "next";
++
++import { PageHero } from "@/components/layout";
++
++export const metadata: Metadata = {
++  title: "Terms",
++  description: "Cafe Big Mo's website and ordering terms. Full legal content arrives in Part 10.",
++};
++
++export default function Page() {
++  return (
++    <main>
++      <PageHero
++        eyebrow="Legal"
++        title="Terms"
++        description="Cafe Big Mo's website and ordering terms. Full legal content arrives in Part 10."
++        breadcrumbs={[{ label: "Terms" }]}
++      />
++      <section className="py-16 sm:py-20">
++        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
++          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
++            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
++          </p>
++        </div>
++      </section>
++    </main>
++  );
++}
+diff --git a/src/components/layout/.gitkeep b/src/components/layout/.gitkeep
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/src/components/layout/breadcrumbs.tsx b/src/components/layout/breadcrumbs.tsx
+new file mode 100644
+index 0000000..1b17cd9
+--- /dev/null
++++ b/src/components/layout/breadcrumbs.tsx
+@@ -0,0 +1,53 @@
++import { ChevronRight, Home } from "lucide-react";
++import Link from "next/link";
++
++import { cn } from "@/lib/utils";
++
++type BreadcrumbItem = {
++  label: string;
++  href?: string;
++};
++
++type BreadcrumbsProps = {
++  items: BreadcrumbItem[];
++  className?: string;
++  inverse?: boolean;
++};
++
++export function Breadcrumbs({ items, className, inverse = false }: BreadcrumbsProps) {
++  const mutedClass = inverse ? "text-white/58" : "text-[var(--brand-muted)]";
++  const activeClass = inverse ? "text-white" : "text-[var(--brand-black)]";
++
++  return (
++    <nav aria-label="Breadcrumb" className={cn("text-sm", className)}>
++      <ol className="flex flex-wrap items-center gap-2">
++        <li>
++          <Link
++            href="/"
++            className={cn("inline-flex items-center gap-1.5 font-bold transition hover:opacity-75", mutedClass)}
++          >
++            <Home size={14} aria-hidden="true" /> Home
++          </Link>
++        </li>
++        {items.map((item, index) => {
++          const last = index === items.length - 1;
++
++          return (
++            <li key={`${item.label}-${index}`} className="flex items-center gap-2">
++              <ChevronRight size={14} className={mutedClass} aria-hidden="true" />
++              {item.href && !last ? (
++                <Link href={item.href} className={cn("font-bold transition hover:opacity-75", mutedClass)}>
++                  {item.label}
++                </Link>
++              ) : (
++                <span className={cn("font-bold", last ? activeClass : mutedClass)} aria-current={last ? "page" : undefined}>
++                  {item.label}
++                </span>
++              )}
++            </li>
++          );
++        })}
++      </ol>
++    </nav>
++  );
++}
+diff --git a/src/components/layout/cta-section.tsx b/src/components/layout/cta-section.tsx
+new file mode 100644
+index 0000000..880a6fb
+--- /dev/null
++++ b/src/components/layout/cta-section.tsx
+@@ -0,0 +1,55 @@
++import { ArrowRight, Phone } from "lucide-react";
++import Link from "next/link";
++import type { ReactNode } from "react";
++
++import { buttonStyles } from "@/components/ui/button";
++import { Container } from "@/components/ui/container";
++import { cn } from "@/lib/utils";
++
++type CTASectionProps = {
++  eyebrow?: string;
++  title: ReactNode;
++  description?: ReactNode;
++  primaryLabel?: string;
++  primaryHref?: string;
++  secondaryLabel?: string;
++  secondaryHref?: string;
++  className?: string;
++};
++
++export function CTASection({
++  eyebrow = "Hungry yet?",
++  title,
++  description,
++  primaryLabel = "Explore the Menu",
++  primaryHref = "/menu",
++  secondaryLabel = "Call Big Mo's",
++  secondaryHref = "tel:+917906123442",
++  className,
++}: CTASectionProps) {
++  return (
++    <section className={cn("bg-[var(--brand-yellow)] py-12 sm:py-16", className)}>
++      <Container className="grid items-center gap-7 lg:grid-cols-[1fr_auto]">
++        <div>
++          <p className="text-xs font-extrabold uppercase tracking-[0.24em] text-[var(--brand-red)]">
++            {eyebrow}
++          </p>
++          <h2 className="mt-2 max-w-3xl font-display text-3xl leading-[1.02] tracking-[-0.025em] text-[var(--brand-black)] sm:text-4xl lg:text-5xl">
++            {title}
++          </h2>
++          {description ? (
++            <p className="mt-4 max-w-2xl text-sm leading-7 text-black/64 sm:text-base">{description}</p>
++          ) : null}
++        </div>
++        <div className="flex flex-wrap gap-3 lg:justify-end">
++          <Link href={primaryHref} className={buttonStyles({ variant: "primary", size: "lg" })}>
++            {primaryLabel} <ArrowRight size={18} aria-hidden="true" />
++          </Link>
++          <a href={secondaryHref} className={buttonStyles({ variant: "dark", size: "lg" })}>
++            <Phone size={18} aria-hidden="true" /> {secondaryLabel}
++          </a>
++        </div>
++      </Container>
++    </section>
++  );
++}
+diff --git a/src/components/layout/footer.tsx b/src/components/layout/footer.tsx
+new file mode 100644
+index 0000000..738409d
+--- /dev/null
++++ b/src/components/layout/footer.tsx
+@@ -0,0 +1,103 @@
++import { Instagram, MapPin, Phone } from "lucide-react";
++import Link from "next/link";
++
++import { BrandMark } from "@/components/ui/brand-mark";
++import { Container } from "@/components/ui/container";
++
++const quickLinks = [
++  { label: "Home", href: "/" },
++  { label: "Menu", href: "/menu" },
++  { label: "About", href: "/about" },
++  { label: "Gallery", href: "/gallery" },
++  { label: "Outlets", href: "/outlets" },
++  { label: "Contact", href: "/contact" },
++] as const;
++
++export function Footer() {
++  return (
++    <footer className="bg-[var(--brand-black)] pb-24 pt-14 text-white sm:pb-10 sm:pt-16">
++      <Container>
++        <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.3fr_0.8fr_1fr] lg:gap-16">
++          <div>
++            <Link
++              href="/"
++              className="inline-flex items-center gap-3 rounded-xl focus-visible:outline-none"
++              aria-label="Cafe Big Mo's home"
++            >
++              <BrandMark size={78} className="h-18 w-18" />
++              <span className="font-display text-xl leading-none">
++                CAFE <span className="text-[var(--brand-yellow)]">BIG MO&apos;S</span>
++              </span>
++            </Link>
++            <p className="mt-5 max-w-md text-sm leading-7 text-white/62 sm:text-base">
++              Pure vegetarian comfort food, pocket-friendly pricing and modern cafe spaces in
++              Prayagraj and Haldwani.
++            </p>
++            <a
++              href="tel:+917906123442"
++              className="mt-5 inline-flex items-center gap-2 rounded-lg text-sm font-bold text-white transition hover:text-[var(--brand-yellow)]"
++            >
++              <Phone size={17} aria-hidden="true" /> +91 79061 23442
++            </a>
++          </div>
++
++          <div>
++            <h2 className="font-display text-lg text-[var(--brand-yellow)]">Quick Links</h2>
++            <ul className="mt-5 grid grid-cols-2 gap-x-5 gap-y-3 text-sm text-white/68 md:grid-cols-1">
++              {quickLinks.map((link) => (
++                <li key={link.href}>
++                  <Link className="transition hover:text-white" href={link.href}>
++                    {link.label}
++                  </Link>
++                </li>
++              ))}
++            </ul>
++          </div>
++
++          <div>
++            <h2 className="font-display text-lg text-[var(--brand-yellow)]">Our Outlets</h2>
++            <div className="mt-5 space-y-4 text-sm leading-6 text-white/68">
++              <a
++                href="https://maps.app.goo.gl/PvMcasc6uue8SmC3A"
++                target="_blank"
++                rel="noreferrer"
++                className="flex gap-3 transition hover:text-white"
++              >
++                <MapPin className="mt-0.5 shrink-0" size={17} aria-hidden="true" />
++                <span>Tagore Town, Prayagraj</span>
++              </a>
++              <a
++                href="https://maps.app.goo.gl/hF2xU94AXTqUMyd3A"
++                target="_blank"
++                rel="noreferrer"
++                className="flex gap-3 transition hover:text-white"
++              >
++                <MapPin className="mt-0.5 shrink-0" size={17} aria-hidden="true" />
++                <span>Haldwani, Uttarakhand</span>
++              </a>
++              <p className="pt-1 text-xs uppercase tracking-[0.18em] text-white/42">
++                Online delivery: 11 AM – 9 PM
++              </p>
++              <div className="flex items-center gap-2 pt-1">
++                <Instagram size={17} aria-hidden="true" />
++                <span>Social link will be connected when provided.</span>
++              </div>
++            </div>
++          </div>
++        </div>
++
++        <div className="flex flex-col gap-4 pt-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
++          <p>© {new Date().getFullYear()} Cafe Big Mo&apos;s. All rights reserved.</p>
++          <div className="flex gap-5">
++            <Link className="transition hover:text-white" href="/privacy-policy">
++              Privacy Policy
++            </Link>
++            <Link className="transition hover:text-white" href="/terms">
++              Terms
++            </Link>
++          </div>
++        </div>
++      </Container>
++    </footer>
++  );
++}
+diff --git a/src/components/layout/header.tsx b/src/components/layout/header.tsx
+new file mode 100644
+index 0000000..6cb9672
+--- /dev/null
++++ b/src/components/layout/header.tsx
+@@ -0,0 +1,164 @@
++"use client";
++
++import { AnimatePresence, motion } from "framer-motion";
++import { Menu, ShoppingBag, X } from "lucide-react";
++import Link from "next/link";
++import { usePathname } from "next/navigation";
++import { useEffect, useState } from "react";
++
++import { BrandMark } from "@/components/ui/brand-mark";
++import { buttonStyles } from "@/components/ui/button";
++import { Container } from "@/components/ui/container";
++import { cn } from "@/lib/utils";
++
++const navigation = [
++  { label: "Home", href: "/" },
++  { label: "Menu", href: "/menu" },
++  { label: "About", href: "/about" },
++  { label: "Gallery", href: "/gallery" },
++  { label: "Outlets", href: "/outlets" },
++  { label: "Contact", href: "/contact" },
++] as const;
++
++function isActivePath(pathname: string, href: string) {
++  if (href === "/") return pathname === "/";
++  return pathname === href || pathname.startsWith(`${href}/`);
++}
++
++export function Header() {
++  const pathname = usePathname();
++  const [mobileOpen, setMobileOpen] = useState(false);
++
++  useEffect(() => {
++    if (!mobileOpen) return;
++
++    const previousOverflow = document.body.style.overflow;
++    document.body.style.overflow = "hidden";
++
++    function onKeyDown(event: KeyboardEvent) {
++      if (event.key === "Escape") setMobileOpen(false);
++    }
++
++    window.addEventListener("keydown", onKeyDown);
++
++    return () => {
++      document.body.style.overflow = previousOverflow;
++      window.removeEventListener("keydown", onKeyDown);
++    };
++  }, [mobileOpen]);
++
++  return (
++    <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(11,13,13,0.96)] text-white backdrop-blur-xl">
++      <Container className="flex h-20 items-center justify-between gap-4 sm:h-22">
++        <Link
++          href="/"
++          className="flex shrink-0 items-center gap-3 rounded-xl focus-visible:outline-none"
++          aria-label="Cafe Big Mo's home"
++        >
++          <BrandMark size={64} priority className="h-14 w-14 sm:h-16 sm:w-16" />
++          <span className="hidden font-display text-lg leading-none tracking-tight sm:block">
++            CAFE <span className="text-[var(--brand-yellow)]">BIG MO&apos;S</span>
++          </span>
++        </Link>
++
++        <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
++          {navigation.map((item) => {
++            const active = isActivePath(pathname, item.href);
++
++            return (
++              <Link
++                key={item.href}
++                href={item.href}
++                aria-current={active ? "page" : undefined}
++                className={cn(
++                  "rounded-full px-3.5 py-2 text-sm font-bold text-white/75 transition hover:bg-white/8 hover:text-white",
++                  active && "bg-white/10 text-[var(--brand-yellow)]",
++                )}
++              >
++                {item.label}
++              </Link>
++            );
++          })}
++        </nav>
++
++        <div className="flex items-center gap-2">
++          <Link
++            href="/bag"
++            className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white transition hover:border-[var(--brand-yellow)] hover:text-[var(--brand-yellow)]"
++            aria-label="Open your bag"
++          >
++            <ShoppingBag size={19} aria-hidden="true" />
++            <span
++              className="absolute -right-1 -top-1 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-[var(--brand-yellow)] px-1 text-[10px] font-extrabold text-[var(--brand-black)]"
++              aria-label="0 items in bag"
++            >
++              0
++            </span>
++          </Link>
++
++          <Link
++            href="/menu"
++            className={buttonStyles({ size: "sm", className: "hidden sm:inline-flex" })}
++          >
++            Order Online
++          </Link>
++
++          <button
++            type="button"
++            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white transition hover:border-[var(--brand-yellow)] hover:text-[var(--brand-yellow)] lg:hidden"
++            aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
++            aria-expanded={mobileOpen}
++            aria-controls="mobile-navigation"
++            onClick={() => setMobileOpen((open) => !open)}
++          >
++            {mobileOpen ? <X size={21} /> : <Menu size={21} />}
++          </button>
++        </div>
++      </Container>
++
++      <AnimatePresence>
++        {mobileOpen ? (
++          <motion.div
++            id="mobile-navigation"
++            initial={{ opacity: 0, height: 0 }}
++            animate={{ opacity: 1, height: "auto" }}
++            exit={{ opacity: 0, height: 0 }}
++            transition={{ duration: 0.24, ease: "easeOut" }}
++            className="overflow-hidden border-t border-white/10 bg-[var(--brand-black)] lg:hidden"
++          >
++            <Container className="py-4">
++              <nav className="grid gap-1" aria-label="Mobile navigation">
++                {navigation.map((item) => {
++                  const active = isActivePath(pathname, item.href);
++
++                  return (
++                    <Link
++                      key={item.href}
++                      href={item.href}
++                      aria-current={active ? "page" : undefined}
++                      onClick={() => setMobileOpen(false)}
++                      className={cn(
++                        "rounded-2xl px-4 py-3.5 text-base font-bold text-white/78 transition hover:bg-white/8 hover:text-white",
++                        active && "bg-white/10 text-[var(--brand-yellow)]",
++                      )}
++                    >
++                      {item.label}
++                    </Link>
++                  );
++                })}
++              </nav>
++
++              <Link
++                href="/menu"
++                onClick={() => setMobileOpen(false)}
++                className={buttonStyles({ size: "lg", className: "mt-4 w-full" })}
++              >
++                Order Online
++              </Link>
++            </Container>
++          </motion.div>
++        ) : null}
++      </AnimatePresence>
++    </header>
++  );
++}
+diff --git a/src/components/layout/index.ts b/src/components/layout/index.ts
+new file mode 100644
+index 0000000..5d42e5c
+--- /dev/null
++++ b/src/components/layout/index.ts
+@@ -0,0 +1,7 @@
++export * from "./breadcrumbs";
++export * from "./cta-section";
++export * from "./footer";
++export * from "./header";
++export * from "./mobile-order-bar";
++export * from "./outlet-mini-card";
++export * from "./page-hero";
+diff --git a/src/components/layout/mobile-order-bar.tsx b/src/components/layout/mobile-order-bar.tsx
+new file mode 100644
+index 0000000..78c0f5a
+--- /dev/null
++++ b/src/components/layout/mobile-order-bar.tsx
+@@ -0,0 +1,40 @@
++"use client";
++
++import { ShoppingBag, UtensilsCrossed } from "lucide-react";
++import Link from "next/link";
++import { usePathname } from "next/navigation";
++
++import { cn } from "@/lib/utils";
++
++export function MobileOrderBar() {
++  const pathname = usePathname();
++  const hidden = pathname === "/bag";
++
++  return (
++    <div
++      className={cn(
++        "fixed inset-x-0 bottom-0 z-40 border-t border-black/8 bg-[rgba(255,247,232,0.96)] px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 shadow-[0_-12px_35px_rgba(0,0,0,0.11)] backdrop-blur-xl sm:hidden",
++        hidden && "hidden",
++      )}
++    >
++      <div className="mx-auto grid max-w-lg grid-cols-[1fr_auto] gap-2">
++        <Link
++          href="/menu"
++          className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[var(--brand-red)] px-5 text-sm font-extrabold text-white shadow-[0_10px_24px_rgba(237,28,36,0.22)]"
++        >
++          <UtensilsCrossed size={17} aria-hidden="true" /> Order Online
++        </Link>
++        <Link
++          href="/bag"
++          className="relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand-black)] text-white"
++          aria-label="View bag, 0 items"
++        >
++          <ShoppingBag size={18} aria-hidden="true" />
++          <span className="absolute -right-1 -top-1 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-[var(--brand-yellow)] px-1 text-[10px] font-extrabold text-[var(--brand-black)]">
++            0
++          </span>
++        </Link>
++      </div>
++    </div>
++  );
++}
+diff --git a/src/components/layout/outlet-mini-card.tsx b/src/components/layout/outlet-mini-card.tsx
+new file mode 100644
+index 0000000..a3aa851
+--- /dev/null
++++ b/src/components/layout/outlet-mini-card.tsx
+@@ -0,0 +1,61 @@
++import { ArrowUpRight, Clock3, MapPin } from "lucide-react";
++import Image from "next/image";
++
++import { buttonStyles } from "@/components/ui/button";
++import { cn } from "@/lib/utils";
++
++type OutletMiniCardProps = {
++  name: string;
++  location: string;
++  image: string;
++  mapUrl: string;
++  hours?: string;
++  className?: string;
++};
++
++export function OutletMiniCard({
++  name,
++  location,
++  image,
++  mapUrl,
++  hours = "Online delivery · 11 AM – 9 PM",
++  className,
++}: OutletMiniCardProps) {
++  return (
++    <article
++      className={cn(
++        "group overflow-hidden rounded-[var(--radius-lg)] border border-[var(--brand-border)] bg-white shadow-[var(--shadow-card)]",
++        className,
++      )}
++    >
++      <div className="relative aspect-[16/10] overflow-hidden bg-neutral-200">
++        <Image
++          src={image}
++          alt={`${name} cafe outlet`}
++          fill
++          className="object-cover transition duration-500 group-hover:scale-[1.035]"
++          sizes="(max-width: 768px) 100vw, 50vw"
++        />
++      </div>
++      <div className="p-5 sm:p-6">
++        <h3 className="font-display text-2xl tracking-tight">{name}</h3>
++        <p className="mt-3 flex items-start gap-2 text-sm leading-6 text-[var(--brand-muted)]">
++          <MapPin className="mt-1 shrink-0 text-[var(--brand-red)]" size={16} aria-hidden="true" />
++          {location}
++        </p>
++        <p className="mt-2 flex items-start gap-2 text-sm leading-6 text-[var(--brand-muted)]">
++          <Clock3 className="mt-1 shrink-0 text-[var(--brand-red)]" size={16} aria-hidden="true" />
++          {hours}
++        </p>
++        <a
++          href={mapUrl}
++          target="_blank"
++          rel="noreferrer"
++          className={buttonStyles({ variant: "ghost", size: "sm", className: "mt-5" })}
++        >
++          Get Directions <ArrowUpRight size={16} aria-hidden="true" />
++        </a>
++      </div>
++    </article>
++  );
++}
+diff --git a/src/components/layout/page-hero.tsx b/src/components/layout/page-hero.tsx
+new file mode 100644
+index 0000000..9d7a219
+--- /dev/null
++++ b/src/components/layout/page-hero.tsx
+@@ -0,0 +1,65 @@
++import Image from "next/image";
++import type { ReactNode } from "react";
++
++import { Container } from "@/components/ui/container";
++import { cn } from "@/lib/utils";
++
++import { Breadcrumbs } from "./breadcrumbs";
++
++type PageHeroProps = {
++  title: ReactNode;
++  description?: ReactNode;
++  eyebrow?: string;
++  image?: string;
++  imageAlt?: string;
++  breadcrumbs?: Array<{ label: string; href?: string }>;
++  actions?: ReactNode;
++  className?: string;
++};
++
++export function PageHero({
++  title,
++  description,
++  eyebrow,
++  image,
++  imageAlt = "",
++  breadcrumbs,
++  actions,
++  className,
++}: PageHeroProps) {
++  return (
++    <section
++      className={cn(
++        "relative isolate overflow-hidden bg-[var(--brand-black)] py-14 text-white sm:py-18 lg:py-22",
++        className,
++      )}
++    >
++      {image ? (
++        <>
++          <Image src={image} alt={imageAlt} fill priority className="-z-20 object-cover opacity-42" sizes="100vw" />
++          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black via-black/82 to-black/34" />
++        </>
++      ) : (
++        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_85%_20%,rgba(255,212,0,0.18),transparent_25rem)]" />
++      )}
++
++      <Container className="relative z-10">
++        {breadcrumbs?.length ? <Breadcrumbs items={breadcrumbs} inverse className="mb-7" /> : null}
++        {eyebrow ? (
++          <p className="text-xs font-extrabold uppercase tracking-[0.24em] text-[var(--brand-yellow)]">
++            {eyebrow}
++          </p>
++        ) : null}
++        <h1 className="mt-3 max-w-4xl font-display text-4xl leading-[0.98] tracking-[-0.035em] text-balance sm:text-5xl lg:text-7xl">
++          {title}
++        </h1>
++        {description ? (
++          <div className="mt-5 max-w-2xl text-base leading-7 text-white/70 sm:text-lg sm:leading-8">
++            {description}
++          </div>
++        ) : null}
++        {actions ? <div className="mt-7 flex flex-wrap gap-3">{actions}</div> : null}
++      </Container>
++    </section>
++  );
++}
