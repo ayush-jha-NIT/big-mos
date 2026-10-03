@@ -3,20 +3,22 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 type BrandMarkProps = {
-  size?: number;
   className?: string;
   priority?: boolean;
 };
 
-export function BrandMark({ size = 88, className, priority = false }: BrandMarkProps) {
+export function BrandMark({
+  className,
+  priority = false,
+}: BrandMarkProps) {
   return (
     <Image
       src="/branding/logo.webp"
       alt="Cafe Big Mo's logo"
-      width={size}
-      height={size}
+      width={1261}
+      height={1247}
       priority={priority}
-      className={cn("h-auto w-auto object-contain", className)}
+      className={cn("object-contain", className)}
     />
   );
 }

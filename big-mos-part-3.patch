@@ -1,0 +1,465 @@
+diff --git a/README.md b/README.md
+index cb76f91..5e925a5 100644
+--- a/README.md
++++ b/README.md
+@@ -36,6 +36,16 @@ Next.js storefront and WhatsApp ordering website for Cafe Big Mo's.
+ - placeholder routes for all global navigation targets
+ - corrected Prayagraj and Haldwani map links
+ 
++### Part 3 — Data layer
++
++- structured 70-item supplied menu dataset
++- 22 menu categories
++- Prayagraj and Haldwani outlet configuration
++- WhatsApp ordering/contact configuration
++- delivery and pickup business rules
++- supplied cafe story and milestone timeline
++- typed data helpers for later menu, cart and checkout parts
++
+ ## Commands
+ 
+ ```bash
+@@ -46,6 +56,10 @@ npm run build
+ npm run verify
+ ```
+ 
++## Part 3 data notes
++
++The menu data follows the supplied Cafe Big Mo's menu artwork. Product descriptions are intentionally not invented because the source menu does not provide them. Free delivery is configured for order values above ₹299. The delivery charge at or below that threshold remains `null` until the cafe supplies the amount. The supplied 4.7 Google Maps rating is stored as a reported value that must be live-verified before public display.
++
+ ## Part 2 visual verification
+ 
+ Run `npm run dev`, then check `/` plus `/menu`, `/about`, `/gallery`, `/outlets`, `/contact` and `/bag` at desktop and mobile widths. The header, mobile drawer, footer and fixed mobile ordering bar should remain consistent across routes.
+diff --git a/src/data/.gitkeep b/src/data/.gitkeep
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/src/data/business.ts b/src/data/business.ts
+new file mode 100644
+index 0000000..5f393a8
+--- /dev/null
++++ b/src/data/business.ts
+@@ -0,0 +1,26 @@
++import type { BusinessConfig } from "@/types/business";
++
++export const businessConfig: BusinessConfig = {
++  name: "Cafe Big Mo's",
++  displayName: "Cafe Big Mo's",
++  currency: "INR",
++  vegetarianOnly: true,
++  phone: "7906123442",
++  whatsappE164: "+917906123442",
++  whatsappDigits: "917906123442",
++  timezone: "Asia/Kolkata",
++  ordering: {
++    deliveryAvailable: true,
++    pickupAvailable: true,
++    deliveryStart: "11:00",
++    deliveryEnd: "21:00",
++    freeDeliveryAbove: 299,
++    deliveryChargeAtOrBelowThreshold: null,
++    deliveryRadiusKm: {
++      min: 5,
++      max: 7,
++    },
++  },
++};
++
++export const whatsappOrderUrl = `https://wa.me/${businessConfig.whatsappDigits}`;
+diff --git a/src/data/cafe.ts b/src/data/cafe.ts
+new file mode 100644
+index 0000000..08f9dc0
+--- /dev/null
++++ b/src/data/cafe.ts
+@@ -0,0 +1,37 @@
++import type { CafeProfile } from "@/types/cafe";
++
++export const cafeProfile: CafeProfile = {
++  about:
++    "Established in mid-2024 in the vibrant neighborhood of Tagore Town, Prayagraj, Cafe Big Mo's has rapidly transformed the city's casual dining scene. Operating as a 100% pure vegetarian hotspot, the cafe was founded on a simple mission: bridging the gap between premium aesthetic quality and pocket-friendly pricing. It stands out for its high-hygiene open kitchen layout, modern interior aesthetics, and a value-for-money menu featuring items like the signature ₹60 Crunchy Veg Burger and premium Italian white sauce pastas.",
++  milestones: [
++    {
++      period: "Mid-2024",
++      title: "The Launch",
++      description:
++        "Opened doors near Phoenix Hospital, quickly capturing the local college student and young professional demographic.",
++    },
++    {
++      period: "Late-2024",
++      title: "Digital Expansion",
++      description:
++        "Successfully integrated with Swiggy and Zomato, expanding its culinary reach city-wide, while simultaneously attaining local viral status through Instagram food blogging campaigns.",
++    },
++    {
++      period: "Early-2025",
++      title: "Maha Kumbh Surge",
++      description:
++        "Served as a prominent, contemporary fast-food destination for the massive influx of national and international tourists during the historic mega-event in Prayagraj.",
++    },
++    {
++      period: "Community Acclaim",
++      title: "Strong Local Response",
++      description:
++        "Secured stellar customer ratings across online platforms within its first year of operations.",
++    },
++  ],
++  reportedRating: {
++    value: 4.7,
++    platform: "Google Maps",
++    requiresLiveVerification: true,
++  },
++};
+diff --git a/src/data/index.ts b/src/data/index.ts
+new file mode 100644
+index 0000000..d008c06
+--- /dev/null
++++ b/src/data/index.ts
+@@ -0,0 +1,4 @@
++export * from "./business";
++export * from "./cafe";
++export * from "./menu";
++export * from "./outlets";
+diff --git a/src/data/menu.ts b/src/data/menu.ts
+new file mode 100644
+index 0000000..d091b76
+--- /dev/null
++++ b/src/data/menu.ts
+@@ -0,0 +1,156 @@
++import type { MenuCategory, MenuCategoryId, MenuItem } from "@/types/menu";
++
++export const menuCategories = [
++  { id: "burger", label: "Burger", order: 1, group: "food" },
++  { id: "fries", label: "Fries", order: 2, group: "food" },
++  { id: "sandwich", label: "Sandwich", order: 3, group: "food" },
++  { id: "pizza", label: "Pizza", order: 4, group: "food" },
++  { id: "momo", label: "Momo", order: 5, group: "food" },
++  { id: "noodles", label: "Noodles", order: 6, group: "food" },
++  { id: "chilli-potato", label: "Chilli Potato", order: 7, group: "food" },
++  { id: "spring-roll", label: "Spring Roll", order: 8, group: "food" },
++  { id: "paneer", label: "Paneer", order: 9, group: "food" },
++  { id: "rice", label: "Rice", order: 10, group: "food" },
++  { id: "manchurian", label: "Manchurian", order: 11, group: "food" },
++  { id: "tea", label: "Tea", order: 12, group: "beverage" },
++  { id: "combo", label: "Combo", order: 13, group: "food" },
++  { id: "pasta", label: "Pasta", order: 14, group: "food" },
++  { id: "wrap", label: "Wrap", order: 15, group: "food" },
++  { id: "sweet-corn", label: "Sweet Corn", order: 16, group: "food" },
++  { id: "dessert", label: "Dessert", order: 17, group: "food" },
++  { id: "add-ons", label: "Add Ons", order: 18, group: "extras" },
++  { id: "caffeine", label: "Caffeine", order: 19, group: "beverage" },
++  { id: "mojito", label: "Mojito", order: 20, group: "beverage" },
++  { id: "shakes", label: "Shakes", order: 21, group: "beverage" },
++  { id: "ice-tea", label: "Ice Tea", order: 22, group: "beverage" },
++] as const satisfies readonly MenuCategory[];
++
++export const menuItems = [
++  { id: "crunchy-veg", name: "Crunchy Veg", category: "burger", price: 60, vegetarian: true, available: true },
++  { id: "veg-delight", name: "Veg Delight", category: "burger", price: 80, vegetarian: true, available: true },
++  { id: "veg-delight-special", name: "Veg Delight Special", category: "burger", price: 90, vegetarian: true, available: true },
++  { id: "veg-delight-cheese", name: "Veg Delight Cheese", category: "burger", price: 110, vegetarian: true, available: true },
++
++  { id: "salted-fries-regular", name: "Salted Fries (Regular)", category: "fries", price: 70, vegetarian: true, available: true },
++  { id: "salted-fries-large", name: "Salted Fries (Large)", category: "fries", price: 99, vegetarian: true, available: true },
++  { id: "cheesy-fries", name: "Cheesy Fries", category: "fries", price: 120, vegetarian: true, available: true },
++
++  { id: "veggies-loaded", name: "Veggies Loaded", category: "sandwich", price: 99, vegetarian: true, available: true },
++  { id: "grilled-cheese", name: "Grilled Cheese", category: "sandwich", price: 99, vegetarian: true, available: true },
++  { id: "corn-and-cheese", name: "Corn & Cheese", category: "sandwich", price: 110, vegetarian: true, available: true },
++  { id: "paneer-tikka-sandwich", name: "Paneer Tikka Sandwich", category: "sandwich", price: 139, vegetarian: true, available: true },
++
++  { id: "cheesy-margherita", name: "Cheesy Margherita", category: "pizza", price: 149, vegetarian: true, available: true },
++  { id: "cheese-and-corn", name: "Cheese and Corn", category: "pizza", price: 149, vegetarian: true, available: true },
++  { id: "veggie-crunch", name: "Veggie Crunch", category: "pizza", price: 149, vegetarian: true, available: true },
++  { id: "papas-paneer", name: "Papa's Paneer", category: "pizza", price: 169, vegetarian: true, available: true },
++  { id: "veggie-lovers-pizza", name: "Veggie Lovers Pizza", category: "pizza", price: 179, vegetarian: true, available: true },
++
++  { id: "veg-steamed-momos-6pc", name: "Veg Steamed Momos (6 pc)", category: "momo", price: 99, vegetarian: true, available: true },
++
++  { id: "veg-noodles", name: "Veg Noodles", category: "noodles", price: 99, vegetarian: true, available: true },
++  { id: "schezwan-noodles", name: "Schezwan Noodles", category: "noodles", price: 120, vegetarian: true, available: true },
++
++  { id: "chilli-potato", name: "Chilli Potato", category: "chilli-potato", price: 99, vegetarian: true, available: true },
++  { id: "honey-chilli-potato", name: "Honey Chilli Potato", category: "chilli-potato", price: 129, vegetarian: true, available: true },
++
++  { id: "veg-spring-roll", name: "Veg Spring Roll", category: "spring-roll", price: 99, vegetarian: true, available: true },
++
++  { id: "chilli-paneer-dry", name: "Chilli Paneer (Dry)", category: "paneer", price: 129, vegetarian: true, available: true },
++  { id: "chilli-paneer-gravy", name: "Chilli Paneer (Gravy)", category: "paneer", price: 149, vegetarian: true, available: true },
++
++  { id: "veg-fried-rice", name: "Veg Fried Rice", category: "rice", price: 99, vegetarian: true, available: true },
++  { id: "paneer-fried-rice", name: "Paneer Fried Rice", category: "rice", price: 129, vegetarian: true, available: true },
++
++  { id: "veg-manchurian-dry", name: "Veg Manchurian (Dry)", category: "manchurian", price: 99, vegetarian: true, available: true },
++  { id: "veg-manchurian-gravy", name: "Veg manchurian (Gravy)", category: "manchurian", price: 129, vegetarian: true, available: true },
++
++  { id: "masala-tea", name: "Masala Tea", category: "tea", price: 40, vegetarian: true, available: true },
++  { id: "cardamom-tea", name: "Cardamom Tea", category: "tea", price: 40, vegetarian: true, available: true },
++  { id: "lemon-grass-tea", name: "Lemon Grass Tea", category: "tea", price: 40, vegetarian: true, available: true },
++
++  {
++    id: "combo-crunchy-veg-hot-coffee-fries",
++    name: "Crunchy Veg + Hot Coffee + Regular Fries",
++    category: "combo",
++    price: 169,
++    vegetarian: true,
++    available: true,
++    note: "Save Rs. 30",
++  },
++  {
++    id: "combo-crunchy-veg-cold-coffee-fries",
++    name: "Crunchy Veg + Cold Coffee + Regular Fries",
++    category: "combo",
++    price: 199,
++    vegetarian: true,
++    available: true,
++    note: "Save Rs. 30",
++  },
++  {
++    id: "combo-veggie-crunch-mojito-fries",
++    name: "Veggie Crunch + Mojito + Fries",
++    category: "combo",
++    price: 269,
++    vegetarian: true,
++    available: true,
++    note: "Save Rs.50",
++  },
++
++  { id: "redsauce-pasta", name: "RedSauce Pasta", category: "pasta", price: 129, vegetarian: true, available: true },
++  { id: "white-sauce-pasta", name: "White Sauce Pasta", category: "pasta", price: 149, vegetarian: true, available: true },
++  { id: "arrabiata-pasta", name: "Arrabiata pasta", category: "pasta", price: 149, vegetarian: true, available: true },
++
++  { id: "vegetable-wrap", name: "Vegetable Wrap", category: "wrap", price: 99, vegetarian: true, available: true },
++  { id: "paneer-vegetable-wrap", name: "Paneer Vegetable Wrap", category: "wrap", price: 120, vegetarian: true, available: true },
++
++  { id: "salted-corn", name: "Salted Corn", category: "sweet-corn", price: 60, vegetarian: true, available: true },
++  { id: "maxicorn-corn", name: "Maxicorn Corn", category: "sweet-corn", price: 80, vegetarian: true, available: true },
++
++  { id: "chocolava", name: "Chocolava", category: "dessert", price: 109, vegetarian: true, available: true },
++  { id: "brownie", name: "Brownie", category: "dessert", price: 129, vegetarian: true, available: true },
++  { id: "brownie-with-ice-cream", name: "Brownie with Ice Cream", category: "dessert", price: 149, vegetarian: true, available: true },
++
++  { id: "mayo-dip", name: "Mayo Dip", category: "add-ons", price: 10, vegetarian: true, available: true },
++  { id: "schezwan-dip", name: "Schezwan Dip", category: "add-ons", price: 10, vegetarian: true, available: true },
++  { id: "cheese-dip", name: "Cheese Dip", category: "add-ons", price: 15, vegetarian: true, available: true },
++  { id: "with-cheese-liquid", name: "With Cheese (Liquid)", category: "add-ons", price: 15, vegetarian: true, available: true },
++  { id: "tandoori-dip", name: "Tandoori Dip", category: "add-ons", price: 20, vegetarian: true, available: true },
++  { id: "ice-cream-shake", name: "Ice Cream (Shake)", category: "add-ons", price: 30, vegetarian: true, available: true },
++  { id: "extra-cheese-pizza", name: "Extra Cheese (Pizza)", category: "add-ons", price: 40, vegetarian: true, available: true },
++  { id: "club-sandwich", name: "Club Sandwich", category: "add-ons", price: 50, vegetarian: true, available: true },
++
++  { id: "black-coffee", name: "Black Coffee", category: "caffeine", price: 40, vegetarian: true, available: true },
++  { id: "classic-creamy-coffee", name: "Classic Creamy Coffee", category: "caffeine", price: 60, vegetarian: true, available: true },
++  { id: "classic-cold-coffee", name: "Classic Cold Coffee", category: "caffeine", price: 99, vegetarian: true, available: true },
++  { id: "caramel-mocha", name: "Caramel Mocha", category: "caffeine", price: 99, vegetarian: true, available: true },
++
++  { id: "passion-fruit-honey-soda", name: "Passion fruit Honey Soda", category: "mojito", price: 99, vegetarian: true, available: true },
++  { id: "green-apple-soda", name: "Green Apple Soda", category: "mojito", price: 99, vegetarian: true, available: true },
++  { id: "seablue-soda", name: "Seablue Soda", category: "mojito", price: 99, vegetarian: true, available: true },
++  { id: "mint-mojito", name: "Mint Mojito", category: "mojito", price: 99, vegetarian: true, available: true },
++  { id: "blue-berry-mojito", name: "Blue Berry Mojito", category: "mojito", price: 99, vegetarian: true, available: true },
++  { id: "water-mellon", name: "Water Mellon", category: "mojito", price: 99, vegetarian: true, available: true },
++
++  { id: "vanilla-shake", name: "Vanilla Shake", category: "shakes", price: 99, vegetarian: true, available: true },
++  { id: "strawberry-shake", name: "Strawberry Shake", category: "shakes", price: 99, vegetarian: true, available: true },
++  { id: "chocolate-shake", name: "Chocolate Shake", category: "shakes", price: 129, vegetarian: true, available: true },
++  { id: "oreo-shake", name: "Oreo Shake", category: "shakes", price: 129, vegetarian: true, available: true },
++  { id: "kitkat-shake", name: "Kitkat Shake", category: "shakes", price: 129, vegetarian: true, available: true },
++
++  { id: "lemon-ice-tea", name: "Lemon Ice Tea", category: "ice-tea", price: 99, vegetarian: true, available: true },
++  { id: "peach-ice-tea", name: "Peach Ice Tea", category: "ice-tea", price: 99, vegetarian: true, available: true },
++  { id: "apple-lemon-ice-tea", name: "Apple Lemon Ice Tea", category: "ice-tea", price: 99, vegetarian: true, available: true },
++] as const satisfies readonly MenuItem[];
++
++export function getMenuItemsByCategory(category: MenuCategoryId) {
++  return menuItems.filter((item) => item.category === category);
++}
++
++export function getMenuItemById(id: string) {
++  return menuItems.find((item) => item.id === id);
++}
++
++export function getMenuCategoryById(id: MenuCategoryId) {
++  return menuCategories.find((category) => category.id === id);
++}
+diff --git a/src/data/outlets.ts b/src/data/outlets.ts
+new file mode 100644
+index 0000000..10ada9f
+--- /dev/null
++++ b/src/data/outlets.ts
+@@ -0,0 +1,42 @@
++import type { Outlet, OutletId } from "@/types/outlet";
++
++export const outlets = [
++  {
++    id: "prayagraj",
++    name: "Cafe Big Mo's - Prayagraj",
++    city: "Prayagraj",
++    mapUrl: "https://maps.app.goo.gl/PvMcasc6uue8SmC3A",
++    phone: "7906123442",
++    whatsapp: "917906123442",
++    images: {
++      hero: "/outlets/prayagraj/exterior-golden-hour.webp",
++      gallery: [
++        "/outlets/prayagraj/exterior-golden-hour.webp",
++        "/outlets/prayagraj/exterior-twilight.webp",
++        "/outlets/prayagraj/interior-corridor.webp",
++        "/outlets/prayagraj/counter.webp",
++      ],
++    },
++  },
++  {
++    id: "haldwani",
++    name: "Cafe Big Mo's - Haldwani",
++    city: "Haldwani",
++    mapUrl: "https://maps.app.goo.gl/hF2xU94AXTqUMyd3A",
++    phone: "7906123442",
++    whatsapp: "917906123442",
++    images: {
++      hero: "/outlets/haldwani/storefront.webp",
++      gallery: [
++        "/outlets/haldwani/storefront.webp",
++        "/outlets/haldwani/booths.webp",
++        "/outlets/haldwani/dining-lounge.webp",
++        "/outlets/haldwani/interior.webp",
++      ],
++    },
++  },
++] as const satisfies readonly Outlet[];
++
++export function getOutletById(id: OutletId) {
++  return outlets.find((outlet) => outlet.id === id);
++}
+diff --git a/src/types/business.ts b/src/types/business.ts
+new file mode 100644
+index 0000000..dd7d545
+--- /dev/null
++++ b/src/types/business.ts
+@@ -0,0 +1,24 @@
++export type OrderMode = "delivery" | "pickup";
++
++export interface BusinessConfig {
++  name: string;
++  displayName: string;
++  currency: "INR";
++  vegetarianOnly: boolean;
++  phone: string;
++  whatsappE164: string;
++  whatsappDigits: string;
++  timezone: "Asia/Kolkata";
++  ordering: {
++    deliveryAvailable: boolean;
++    pickupAvailable: boolean;
++    deliveryStart: string;
++    deliveryEnd: string;
++    freeDeliveryAbove: number;
++    deliveryChargeAtOrBelowThreshold: null;
++    deliveryRadiusKm: {
++      min: number;
++      max: number;
++    };
++  };
++}
+diff --git a/src/types/cafe.ts b/src/types/cafe.ts
+new file mode 100644
+index 0000000..fac287d
+--- /dev/null
++++ b/src/types/cafe.ts
+@@ -0,0 +1,17 @@
++export interface CafeMilestone {
++  period: string;
++  title: string;
++  description: string;
++}
++
++export interface ReportedRating {
++  value: number;
++  platform: "Google Maps";
++  requiresLiveVerification: true;
++}
++
++export interface CafeProfile {
++  about: string;
++  milestones: readonly CafeMilestone[];
++  reportedRating: ReportedRating;
++}
+diff --git a/src/types/index.ts b/src/types/index.ts
+index aa32b2d..8c17eeb 100644
+--- a/src/types/index.ts
++++ b/src/types/index.ts
+@@ -1 +1,6 @@
++export type { BusinessConfig, OrderMode } from "./business";
++export type { CafeMilestone, CafeProfile, ReportedRating } from "./cafe";
++export type { MenuCategory, MenuCategoryId, MenuItem } from "./menu";
++export type { Outlet, OutletId, OutletImageSet } from "./outlet";
++
+ export type Nullable<T> = T | null;
+diff --git a/src/types/menu.ts b/src/types/menu.ts
+new file mode 100644
+index 0000000..916df5a
+--- /dev/null
++++ b/src/types/menu.ts
+@@ -0,0 +1,43 @@
++export const MENU_CATEGORY_IDS = [
++  "burger",
++  "fries",
++  "sandwich",
++  "pizza",
++  "momo",
++  "noodles",
++  "chilli-potato",
++  "spring-roll",
++  "paneer",
++  "rice",
++  "manchurian",
++  "tea",
++  "combo",
++  "pasta",
++  "wrap",
++  "sweet-corn",
++  "dessert",
++  "add-ons",
++  "caffeine",
++  "mojito",
++  "shakes",
++  "ice-tea",
++] as const;
++
++export type MenuCategoryId = (typeof MENU_CATEGORY_IDS)[number];
++
++export interface MenuCategory {
++  id: MenuCategoryId;
++  label: string;
++  order: number;
++  group?: "food" | "beverage" | "extras";
++}
++
++export interface MenuItem {
++  id: string;
++  name: string;
++  category: MenuCategoryId;
++  price: number;
++  vegetarian: true;
++  available: boolean;
++  note?: string;
++}
+diff --git a/src/types/outlet.ts b/src/types/outlet.ts
+new file mode 100644
+index 0000000..9d32dc8
+--- /dev/null
++++ b/src/types/outlet.ts
+@@ -0,0 +1,16 @@
++export type OutletId = "prayagraj" | "haldwani";
++
++export interface OutletImageSet {
++  hero: string;
++  gallery: readonly string[];
++}
++
++export interface Outlet {
++  id: OutletId;
++  name: string;
++  city: string;
++  mapUrl: string;
++  phone: string;
++  whatsapp: string;
++  images: OutletImageSet;
++}
