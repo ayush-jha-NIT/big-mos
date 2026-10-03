@@ -107,3 +107,14 @@ svg {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Shared global-layout helpers */
+body {
+  overflow-x: clip;
+}
+
+@supports not (overflow: clip) {
+  body {
+    overflow-x: hidden;
+  }
+}

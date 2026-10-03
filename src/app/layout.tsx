@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 
+import { Footer, Header, MobileOrderBar } from "@/components/layout";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -24,7 +26,20 @@ type RootLayoutProps = Readonly<{
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <a
+          href="#main-content"
+          className="fixed left-3 top-3 z-[100] -translate-y-24 rounded-full bg-[var(--brand-yellow)] px-4 py-2 text-sm font-extrabold text-[var(--brand-black)] transition focus:translate-y-0"
+        >
+          Skip to content
+        </a>
+        <Header />
+        <div id="main-content" className="min-h-[70vh]">
+          {children}
+        </div>
+        <Footer />
+        <MobileOrderBar />
+      </body>
     </html>
   );
 }

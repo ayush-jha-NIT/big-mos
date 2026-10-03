@@ -849,7 +849,7 @@ diff --git a/src/components/layout/header.tsx b/src/components/layout/header.tsx
 new file mode 100644
 index 0000000..6cb9672
 --- /dev/null
-+++ b/src/components/layout/header.tsx
++++ b/
 @@ -0,0 +1,164 @@
 +"use client";
 +
