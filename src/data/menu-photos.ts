@@ -25,6 +25,12 @@ const categoryPhotos: Record<MenuCategoryId, string> = {
   "ice-tea": "iced-tea",
 };
 const itemPhotos: Record<string, string> = {
+  "vanilla-shake": "supplied/vanilla-shake",
+  "strawberry-shake": "supplied/strawberry-shake",
+  "oreo-shake": "supplied/oreo-shake",
+  "combo-veggie-crunch-mojito-fries": "supplied/combo-veggie-crunch-mojito-fries",
+  "combo-crunchy-veg-hot-coffee-fries": "supplied/combo-crunchy-veg-hot-coffee-fries",
+  "combo-crunchy-veg-cold-coffee-fries": "supplied/combo-crunchy-veg-cold-coffee-fries",
   "apple-lemon-ice-tea": "supplied/apple-lemon-ice-tea",
   "arrabiata-pasta": "supplied/arrabiata-pasta",
   "blue-berry-mojito": "supplied/blue-berry-mojito",
@@ -82,9 +88,6 @@ const itemPhotos: Record<string, string> = {
   "classic-cold-coffee": "cold-coffee",
   "caramel-mocha": "cold-coffee",
   "seablue-soda": "blue-drink",
-  "vanilla-shake": "vanilla-shake",
-  "strawberry-shake": "strawberry-shake",
-  "oreo-shake": "oreo-shake",
   "kitkat-shake": "chocolate-shake",
 };
 export function getMenuPhoto(item: Pick<MenuItem, "id" | "name" | "category">) {

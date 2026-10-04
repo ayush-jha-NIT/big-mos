@@ -17,65 +17,20 @@ export function ProductCard({ item }: { item: MenuItem }) {
   const add = useCart((s) => s.add);
   const [added, setAdded] = useState(false);
   const photo = getMenuPhoto(item);
-  const ingredientPhoto = (id: string) => getMenuPhoto(menuItems.find((entry) => entry.id === id)!);
   return (
     <article className="product-card">
       <div className="relative -mx-6 -mt-6 mb-5 aspect-[4/3] overflow-hidden rounded-t-3xl bg-[var(--brand-cream)]">
-        {item.category === "combo" ? (
-          <div className="grid h-full grid-cols-[2fr_1fr] gap-1">
-            <div className="relative">
-              <Image
-                src={
-                  item.id.includes("veggie-crunch")
-                    ? ingredientPhoto("veggie-crunch").src
-                    : ingredientPhoto("crunchy-veg").src
-                }
-                alt={
-                  item.id.includes("veggie-crunch")
-                    ? "Vegetarian pizza — representative serving"
-                    : "Vegetarian burger — representative serving"
-                }
-                fill
-                sizes="(max-width:640px) 66vw, 20vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="grid grid-rows-2 gap-1">
-              <div className="relative">
-                <Image
-                  src={
-                    item.id.includes("cold-coffee")
-                      ? "/menu/cold-coffee.webp"
-                      : item.id.includes("mojito")
-                        ? "/menu/mojito.webp"
-                        : ingredientPhoto("classic-creamy-coffee").src
-                  }
-                  alt="Combo drink — representative serving"
-                  fill
-                  sizes="(max-width:640px) 33vw, 10vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="relative">
-                <Image
-                  src={ingredientPhoto("salted-fries-regular").src}
-                  alt="Fries — representative serving"
-                  fill
-                  sizes="(max-width:640px) 33vw, 10vw"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <Image
-            src={photo.src}
-            alt={photo.alt}
-            fill
-            sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
-            className="object-cover"
-          />
-        )}
+        <Image
+          src={photo.src}
+          alt={photo.alt}
+          fill
+          sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
+          className={
+            item.category === "combo" || item.category === "shakes"
+              ? "object-contain"
+              : "object-cover"
+          }
+        />
       </div>
       <div className="flex items-center justify-between gap-3">
         <span className="veg-label">● Pure veg</span>
