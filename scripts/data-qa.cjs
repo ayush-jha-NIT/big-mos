@@ -30,7 +30,7 @@ const { sanitizeCart } = require("../src/store/cart.ts");
 const { getMenuPhoto } = require("../src/data/menu-photos.ts");
 const photoSources = require("../public/menu/sources.json");
 const suppliedPhotos = Object.entries(photoSources).filter(([key]) => key.startsWith("supplied/"));
-assert.equal(suppliedPhotos.length, 50);
+assert.equal(suppliedPhotos.length, 63);
 for (const [key, source] of suppliedPhotos) {
   assert(
     menuItems.some((item) => getMenuPhoto(item).key === key),

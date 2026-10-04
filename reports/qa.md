@@ -26,3 +26,7 @@ Mapped all 44 site owner supplied images to their matching items, including shar
 ## Combo and shake image update — 2026-10-05
 
 Added three supplied complete combo images and vanilla, strawberry and Oreo shake images. Shared product cards use the complete combo photos; combo/shake images fit inside their cards without cropping. Menu, homepage and bag mappings use the same assets. Six replacements total 616 KB. `npm run verify` passed and browser QA passed 39 responsive route checks, all 70 menu image loads and existing ordering regressions. Desktop combo and mobile shake screenshots were visually reviewed. Original supplied files are preserved locally.
+
+## Additional supplied images — 2026-10-05
+
+Replaced 13 corresponding item photos: four sandwiches, club sandwich, cold coffee, caramel mocha, mint mojito, schezwan dip, cheese dip, liquid cheese, extra cheese and ice cream. Optimized assets total 453 KB; originals remain locally preserved. `npm run verify` passed. Browser checks confirmed all 70 menu images decode at 390px and 1440px, all 13 new mappings use supplied assets, and no overflow or runtime errors occur. Sandwich screenshots were visually reviewed at both widths.
