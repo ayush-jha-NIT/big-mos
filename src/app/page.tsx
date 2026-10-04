@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HeroCarousel } from "@/components/shop/hero-carousel";
-import { FeaturedProducts } from "@/components/shop/products";
+import { FeaturedMenu, FeaturedProducts } from "@/components/shop/products";
 import { Container } from "@/components/ui/container";
 import { CTASection, OutletMiniCard } from "@/components/layout";
 import { outlets } from "@/data/outlets";
@@ -28,6 +28,14 @@ export default function Home() {
         <Link className="mt-7 inline-block font-bold text-red-600" href="/menu">
           See the full menu →
         </Link>
+        <section className="mt-16">
+          <p className="eyebrow">More to love</p>
+          <h2 className="section-title">Make it a combo.</h2>
+          <p className="mb-8 text-neutral-600">
+            A burger or pizza, a drink and fries. Your break, sorted.
+          </p>
+          <FeaturedMenu />
+        </section>
         <section className="my-20 grid items-center gap-10 md:grid-cols-2">
           <div className="relative h-96 overflow-hidden rounded-3xl">
             <Image

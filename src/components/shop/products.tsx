@@ -18,6 +18,7 @@ export function ProductCard({ item }: { item: MenuItem }) {
       <div className="flex items-center justify-between gap-3">
         <span className="veg-label">● Pure veg</span>
         {favourites.includes(item.id) && <span className="pill">Mo’s favourite</span>}
+        {item.bestseller && <span className="pill">Bestseller</span>}
       </div>
       <p className="mt-5 text-xs tracking-widest text-neutral-500 uppercase">
         {menuCategories.find((c) => c.id === item.category)?.label}
@@ -49,6 +50,17 @@ export function FeaturedProducts() {
     <div className="product-grid">
       {menuItems
         .filter((i) => favourites.includes(i.id))
+        .map((item) => (
+          <ProductCard key={item.id} item={item} />
+        ))}
+    </div>
+  );
+}
+export function FeaturedMenu() {
+  return (
+    <div className="product-grid">
+      {menuItems
+        .filter((item) => item.category === "combo")
         .map((item) => (
           <ProductCard key={item.id} item={item} />
         ))}

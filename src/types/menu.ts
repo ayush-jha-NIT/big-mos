@@ -40,4 +40,5 @@ export interface MenuItem {
   vegetarian: true;
   available: boolean;
   note?: string;
+  bestseller?: boolean;
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { Menu, ShoppingBag, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -88,7 +87,7 @@ export function Header() {
           <Link
             href="/bag"
             className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white transition hover:border-[var(--brand-yellow)] hover:text-[var(--brand-yellow)]"
-            aria-label="Open your bag"
+            aria-label={`Open your bag, ${count} items`}
           >
             <ShoppingBag size={19} aria-hidden="true" />
             <span
@@ -119,49 +118,43 @@ export function Header() {
         </div>
       </Container>
 
-      <AnimatePresence>
-        {mobileOpen ? (
-          <motion.div
-            id="mobile-navigation"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.24, ease: "easeOut" }}
-            className="overflow-hidden border-t border-white/10 bg-[var(--brand-black)] lg:hidden"
-          >
-            <Container className="py-4">
-              <nav className="grid gap-1" aria-label="Mobile navigation">
-                {navigation.map((item) => {
-                  const active = isActivePath(pathname, item.href);
+      {mobileOpen ? (
+        <div
+          id="mobile-navigation"
+          className="overflow-hidden border-t border-white/10 bg-[var(--brand-black)] lg:hidden"
+        >
+          <Container className="max-h-[calc(100dvh-5rem)] overflow-y-auto py-4">
+            <nav className="grid gap-1" aria-label="Mobile navigation">
+              {navigation.map((item) => {
+                const active = isActivePath(pathname, item.href);
 
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      aria-current={active ? "page" : undefined}
-                      onClick={() => setMobileOpen(false)}
-                      className={cn(
-                        "rounded-2xl px-4 py-3.5 text-base font-bold text-white/78 transition hover:bg-white/8 hover:text-white",
-                        active && "bg-white/10 text-[var(--brand-yellow)]",
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </nav>
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "rounded-2xl px-4 py-3.5 text-base font-bold text-white/78 transition hover:bg-white/8 hover:text-white",
+                      active && "bg-white/10 text-[var(--brand-yellow)]",
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
 
-              <Link
-                href="/menu"
-                onClick={() => setMobileOpen(false)}
-                className={buttonStyles({ size: "lg", className: "mt-4 w-full" })}
-              >
-                Order Online
-              </Link>
-            </Container>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+            <Link
+              href="/menu"
+              onClick={() => setMobileOpen(false)}
+              className={buttonStyles({ size: "lg", className: "mt-4 w-full" })}
+            >
+              Order Online
+            </Link>
+          </Container>
+        </div>
+      ) : null}
     </header>
   );
 }

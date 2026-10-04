@@ -21,6 +21,25 @@ export const checkoutSchema = z
       });
   });
 export type CheckoutValues = z.infer<typeof checkoutSchema>;
+export function isDeliveryOpen(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: businessConfig.timezone,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(now);
+  const minutes =
+    Number(parts.find((p) => p.type === "hour")?.value) * 60 +
+    Number(parts.find((p) => p.type === "minute")?.value);
+  const toMinutes = (time: string) => {
+    const [hour, minute] = time.split(":").map(Number);
+    return hour * 60 + minute;
+  };
+  return (
+    minutes >= toMinutes(businessConfig.ordering.deliveryStart) &&
+    minutes < toMinutes(businessConfig.ordering.deliveryEnd)
+  );
+}
 export function deliveryMessage(subtotal: number, method = "delivery") {
   return method === "pickup"
     ? "Pickup: no delivery fee"
@@ -43,10 +62,10 @@ export function formatOrder(
     `Food subtotal: ₹${subtotal}`,
     values.method === "pickup"
       ? "Delivery fee: ₹0 (pickup)"
-      : subtotal >= 299
+      : subtotal >= businessConfig.ordering.freeDeliveryAbove
         ? "Delivery fee: ₹0"
         : "Delivery fee: please confirm",
-    `Total${values.method === "delivery" && subtotal < 299 ? " before delivery fee" : ""}: ₹${subtotal}`,
+    `Total${values.method === "delivery" && subtotal < businessConfig.ordering.freeDeliveryAbove ? " before delivery fee" : ""}: ₹${subtotal}`,
     "",
     `Name: ${values.name}`,
     `Phone: ${values.phone}`,

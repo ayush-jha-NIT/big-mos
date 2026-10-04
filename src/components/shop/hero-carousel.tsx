@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { buttonStyles } from "@/components/ui/button";
@@ -30,7 +29,14 @@ export function HeroCarousel() {
     [holding, setHolding] = useState(false),
     [focused, setFocused] = useState(false);
   const start = useRef<number | null>(null);
-  const reduced = useReducedMotion();
+  const [reduced, setReduced] = useState(true);
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
   useEffect(() => {
     if (paused || holding || focused || reduced) return;
     const timer = window.setInterval(() => {
@@ -45,6 +51,7 @@ export function HeroCarousel() {
       aria-roledescription="carousel"
       aria-label="Discover Big Mo’s"
       onPointerDown={(e) => {
+        if (e.pointerType !== "mouse") e.currentTarget.setPointerCapture(e.pointerId);
         start.current = e.clientX;
         setHolding(true);
       }}
@@ -64,13 +71,21 @@ export function HeroCarousel() {
       <h1 className="sr-only">Cafe Big Mo’s — pure vegetarian cafe in Prayagraj and Haldwani</h1>
       <div className="hero-track" style={{ transform: `translateX(-${index * 100}%)` }}>
         {slides.map((slide, i) => (
-          <div className="hero-slide" key={slide.image} aria-hidden={index !== i}>
+          <div
+            className="hero-slide"
+            key={slide.image}
+            aria-hidden={index !== i}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${slides.length}`}
+          >
             <Image
               src={slide.image}
               alt={`Inside Cafe Big Mo’s — ${slide.label}`}
               fill
               sizes="100vw"
               priority={i === 0}
+              fetchPriority={i === 0 ? "high" : "auto"}
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/20" />
@@ -99,9 +114,13 @@ export function HeroCarousel() {
             key={i}
             aria-label={`Show slide ${i + 1}`}
             aria-pressed={i === index}
-            className={`h-3 rounded-full ${i === index ? "w-9 bg-yellow-300" : "w-3 bg-white/60"}`}
+            className="flex h-11 w-11 items-center justify-center"
             onClick={() => setIndex(i)}
-          />
+          >
+            <span
+              className={`h-3 rounded-full ${i === index ? "w-9 bg-yellow-300" : "w-3 bg-white/60"}`}
+            />
+          </button>
         ))}
         <button
           className="ml-4 rounded-full border border-white/40 px-4 py-2 text-sm"
@@ -109,10 +128,10 @@ export function HeroCarousel() {
         >
           {paused ? "Play" : "Pause"}
         </button>
-        <button aria-label="Previous slide" onClick={() => move(-1)}>
+        <button className="h-11 w-11" aria-label="Previous slide" onClick={() => move(-1)}>
           ←
         </button>
-        <button aria-label="Next slide" onClick={() => move(1)}>
+        <button className="h-11 w-11" aria-label="Next slide" onClick={() => move(1)}>
           →
         </button>
       </div>

@@ -75,14 +75,14 @@ export function Footer() {
                 <MapPin className="mt-0.5 shrink-0" size={17} aria-hidden="true" />
                 <span>Haldwani, Uttarakhand</span>
               </a>
-              <p className="pt-1 text-xs tracking-[0.18em] text-white/42 uppercase">
+              <p className="pt-1 text-xs tracking-[0.18em] text-white/60 uppercase">
                 Online delivery: 11 AM – 9 PM
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 pt-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 pt-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Cafe Big Mo&apos;s. All rights reserved.</p>
           <div className="flex gap-5">
             <Link className="transition hover:text-white" href="/privacy-policy">

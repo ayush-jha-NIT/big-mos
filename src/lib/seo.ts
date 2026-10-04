@@ -15,7 +15,21 @@ export function pageMetadata(
     title,
     description,
     alternates: { canonical: path },
-    openGraph: { title, description, url: path },
+    openGraph: {
+      title,
+      description,
+      url: path,
+      type: "website",
+      images: [
+        { url: "/outlets/prayagraj/exterior-golden-hour.webp", alt: "Cafe Big Mo’s Prayagraj" },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/outlets/prayagraj/exterior-golden-hour.webp"],
+    },
     ...(privatePage ? { robots: { index: false, follow: false } } : {}),
   };
 }

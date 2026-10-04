@@ -13,6 +13,7 @@ import { LocalSchema } from "@/components/shop/schema";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  icons: { icon: "/icon.svg", shortcut: "/icon.svg", apple: "/branding/logo.webp" },
   metadataBase: new URL(siteUrl),
 
   openGraph: {

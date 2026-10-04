@@ -6,7 +6,16 @@ import { cartLines, useCart } from "@/store/cart";
 import { checkoutSchema, deliveryMessage, formatOrder, type CheckoutValues } from "@/lib/ordering";
 import { whatsappOrderUrl } from "@/data/business";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { isDeliveryOpen } from "@/lib/ordering";
 export function Checkout() {
+  const [deliveryOpen, setDeliveryOpen] = useState<boolean | null>(null);
+  useEffect(() => {
+    const update = () => setDeliveryOpen(isDeliveryOpen());
+    update();
+    const timer = setInterval(update, 60000);
+    return () => clearInterval(timer);
+  }, []);
   const lines = cartLines(useCart((s) => s.items));
   const subtotal = lines.reduce((s, l) => s + l.item.price * l.quantity, 0);
   const {
@@ -126,6 +135,13 @@ export function Checkout() {
         <hr />
         <p className="my-5 text-xl font-bold">Food subtotal: ₹{subtotal}</p>
         <p>{deliveryMessage(subtotal, method)}</p>
+        {method === "delivery" && deliveryOpen !== null && (
+          <p className="mt-4 rounded-xl bg-yellow-100 p-4 text-sm" role="status">
+            {deliveryOpen
+              ? "Delivery requests are open now. The cafe confirms availability and arrival time."
+              : "Delivery is currently outside the 11 AM–9 PM window. You can request the next available delivery slot on WhatsApp."}
+          </p>
+        )}
         <p className="mt-4 text-sm leading-6">
           Delivery is offered 11 AM–9 PM IST, within the cafe’s service area (approximately 5–7 km).
           Requests outside these hours need confirmation for the next available slot. No online

@@ -20,14 +20,36 @@ export const useCart = create<Cart>()(
         set((s) => {
           const items = { ...s.items };
           if (n <= 0) delete items[id];
-          else if (getMenuItemById(id)?.available) items[id] = Math.min(99, Math.floor(n));
+          else if (Number.isFinite(n) && getMenuItemById(id)?.available)
+            items[id] = Math.min(99, Math.floor(n));
           return { items };
         }),
       clear: () => set({ items: {} }),
     }),
-    { name: "big-mos-bag", skipHydration: true, partialize: (s) => ({ items: s.items }) },
+    {
+      name: "big-mos-bag",
+      skipHydration: true,
+      partialize: (s) => ({ items: s.items }),
+      merge: (persisted, current) => ({
+        ...current,
+        items: sanitizeCart((persisted as { items?: unknown } | null)?.items),
+      }),
+    },
   ),
 );
+export function sanitizeCart(value: unknown): Record<string, number> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value).filter(
+      ([id, quantity]) =>
+        getMenuItemById(id)?.available &&
+        typeof quantity === "number" &&
+        Number.isInteger(quantity) &&
+        quantity > 0 &&
+        quantity <= 99,
+    ),
+  );
+}
 export function cartLines(items: Record<string, number>) {
   return Object.entries(items).flatMap(([id, quantity]) => {
     const item = getMenuItemById(id);

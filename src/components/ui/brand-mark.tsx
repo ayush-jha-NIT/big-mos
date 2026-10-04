@@ -7,10 +7,7 @@ type BrandMarkProps = {
   priority?: boolean;
 };
 
-export function BrandMark({
-  className,
-  priority = false,
-}: BrandMarkProps) {
+export function BrandMark({ className, priority = false }: BrandMarkProps) {
   return (
     <Image
       src="/branding/logo.webp"
@@ -18,6 +15,7 @@ export function BrandMark({
       width={1261}
       height={1247}
       priority={priority}
+      sizes="72px"
       className={cn("object-contain", className)}
     />
   );
