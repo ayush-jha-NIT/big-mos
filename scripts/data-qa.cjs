@@ -28,6 +28,24 @@ const {
 } = require("../src/lib/ordering.ts");
 const { sanitizeCart } = require("../src/store/cart.ts");
 const { getMenuPhoto } = require("../src/data/menu-photos.ts");
+const photoSources = require("../public/menu/sources.json");
+const suppliedPhotos = Object.entries(photoSources).filter(([key]) => key.startsWith("supplied/"));
+assert.equal(suppliedPhotos.length, 44);
+for (const [key, source] of suppliedPhotos) {
+  assert(
+    menuItems.some((item) => getMenuPhoto(item).key === key),
+    `Unused supplied photo: ${key}`,
+  );
+  assert(fs.existsSync(path.resolve(__dirname, "../public", source.path.slice(1))));
+}
+assert.equal(
+  getMenuPhoto(menuItems.find((item) => item.id === "crunchy-veg")).key,
+  "supplied/crunchy-veg",
+);
+assert.equal(
+  getMenuPhoto(menuItems.find((item) => item.id === "salted-fries-large")).key,
+  "supplied/salted-fries-regular",
+);
 for (const item of menuItems) {
   const photo = getMenuPhoto(item);
   assert(

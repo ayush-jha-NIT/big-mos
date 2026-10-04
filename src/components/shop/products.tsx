@@ -17,6 +17,7 @@ export function ProductCard({ item }: { item: MenuItem }) {
   const add = useCart((s) => s.add);
   const [added, setAdded] = useState(false);
   const photo = getMenuPhoto(item);
+  const ingredientPhoto = (id: string) => getMenuPhoto(menuItems.find((entry) => entry.id === id)!);
   return (
     <article className="product-card">
       <div className="relative -mx-6 -mt-6 mb-5 aspect-[4/3] overflow-hidden rounded-t-3xl bg-[var(--brand-cream)]">
@@ -26,8 +27,8 @@ export function ProductCard({ item }: { item: MenuItem }) {
               <Image
                 src={
                   item.id.includes("veggie-crunch")
-                    ? "/menu/veggie-pizza.webp"
-                    : "/menu/burger.webp"
+                    ? ingredientPhoto("veggie-crunch").src
+                    : ingredientPhoto("crunchy-veg").src
                 }
                 alt={
                   item.id.includes("veggie-crunch")
@@ -47,7 +48,7 @@ export function ProductCard({ item }: { item: MenuItem }) {
                       ? "/menu/cold-coffee.webp"
                       : item.id.includes("mojito")
                         ? "/menu/mojito.webp"
-                        : "/menu/coffee.webp"
+                        : ingredientPhoto("classic-creamy-coffee").src
                   }
                   alt="Combo drink — representative serving"
                   fill
@@ -57,7 +58,7 @@ export function ProductCard({ item }: { item: MenuItem }) {
               </div>
               <div className="relative">
                 <Image
-                  src="/menu/fries.webp"
+                  src={ingredientPhoto("salted-fries-regular").src}
                   alt="Fries — representative serving"
                   fill
                   sizes="(max-width:640px) 33vw, 10vw"

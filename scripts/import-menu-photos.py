@@ -15,6 +15,16 @@ for key, source in sources.items():
     destination = TARGET / f"{key}.webp"
     if destination.exists():
         continue
+    if source.get("localOriginal"):
+        original = ROOT / source["localOriginal"]
+        if not original.exists():
+            print(f"{key}: original local file unavailable; retain the committed WebP asset", flush=True)
+            continue
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        image = ImageOps.exif_transpose(Image.open(original)).convert("RGB")
+        image.thumbnail((1100,1100), Image.Resampling.LANCZOS)
+        image.save(destination,"WEBP",quality=88,method=6)
+        continue
     request = urllib.request.Request(source["url"], headers={"User-Agent":"BigMosWebsite/1.0 (reviewed food photograph import)"})
     for attempt in range(4):
         try:

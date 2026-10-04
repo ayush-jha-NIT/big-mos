@@ -18,3 +18,7 @@ Verified against the local optimized production build, not a deployed Vercel sit
 ## Menu photography update
 
 All 70 items resolve to reviewed local photographs. The optimized asset library contains 44 WebP photographs, with attribution/license records and a public credits page. Variants share photos where appropriate. Combo cards compose photographs of their main dish, beverage and fries. Build/data checks pass; browser QA checks all 70 item cards load their photos and now covers 39 responsive route checks, including photo credits. The Lighthouse score above predates this photo update.
+
+## Supplied menu image update — 2026-10-05
+
+Mapped all 44 site owner supplied images to their matching items, including shared regular/large fries and updated combo ingredients. Optimized WebP replacements total 2.04 MB; originals are preserved locally. Provenance records distinguish supplied assets from existing licensed stock. `npm run verify` passed (lint, TypeScript, data assertions and production build). Browser QA passed 39 responsive route checks and image decoding for all 70 menu items, cart/checkout and SEO regressions with no runtime errors. Desktop and mobile menu screenshots were visually reviewed.

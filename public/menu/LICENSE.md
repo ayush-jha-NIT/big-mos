@@ -221,3 +221,7 @@ License: CC BY 2.0 — https://creativecommons.org/licenses/by/2.0
 Photo: File:Vegetable Wrap (toasted) - The naan hut 2023-12-22.jpg — Andy Li
 Source: https://commons.wikimedia.org/wiki/File:Vegetable_Wrap_(toasted)_-_The_naan_hut_2023-12-22.jpg
 License: CC0 — http://creativecommons.org/publicdomain/zero/1.0/deed.en
+
+## Site owner supplied replacements
+
+Assets in `supplied/` were provided by the site owner. Their original photographer and license were not provided. They do not inherit the licenses listed for the existing stock assets. Filename mappings and conversion details are recorded in `sources.json`. Original watermarks are retained.

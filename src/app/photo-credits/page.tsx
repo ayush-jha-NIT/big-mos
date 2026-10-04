@@ -17,9 +17,10 @@ export default function PhotoCredits() {
       />
       <Container className="py-14">
         <p className="mb-8 max-w-3xl leading-7">
-          These photographs are reused under their respective open licenses. Images have been
-          resized and converted to WebP, with responsive cropping on the menu. Each photograph
-          retains the license shown below, including share-alike terms where applicable.
+          The menu includes images supplied by the site owner and photographs reused under their
+          respective open licenses. Images have been resized and converted to WebP, with responsive
+          cropping on the menu. Available source and license details are recorded below, including
+          share-alike terms where applicable.
         </p>
         <div className="grid gap-5 md:grid-cols-2">
           {Object.entries(sources).map(([key, photo]) => (
@@ -29,17 +30,23 @@ export default function PhotoCredits() {
                 Photo: {photo.artist || "See original source for photographer"}
               </p>
               <div className="flex flex-wrap gap-4 text-sm">
-                <a className="underline" href={photo.source} target="_blank" rel="noreferrer">
-                  Original photograph ↗
-                </a>
-                <a
-                  className="underline"
-                  href={photo.licenseUrl || photo.source}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {photo.license} ↗
-                </a>
+                {photo.source && (
+                  <a className="underline" href={photo.source} target="_blank" rel="noreferrer">
+                    Original photograph ↗
+                  </a>
+                )}
+                {photo.source ? (
+                  <a
+                    className="underline"
+                    href={photo.licenseUrl || photo.source}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {photo.license} ↗
+                  </a>
+                ) : (
+                  <span>{photo.license}</span>
+                )}
               </div>
             </article>
           ))}
