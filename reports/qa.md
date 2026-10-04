@@ -14,3 +14,7 @@ Verified against the local optimized production build, not a deployed Vercel sit
 - The original homepage visual reference is unavailable in this repository. Exact comparison requires it.
 - Approved customer review quotations and the full Haldwani street address were not supplied or verified. The site uses supplied photos, location directions and direct Google Maps review links.
 - No fee below ₹299 was supplied. The WhatsApp message requests confirmation instead of inventing a fee. Free delivery and pickup totals are exact.
+
+## Menu photography update
+
+All 70 items resolve to reviewed local photographs. The optimized asset library contains 44 WebP photographs, with attribution/license records and a public credits page. Variants share photos where appropriate. Combo cards compose photographs of their main dish, beverage and fries. Build/data checks pass; browser QA checks all 70 item cards load their photos and now covers 39 responsive route checks, including photo credits. The Lighthouse score above predates this photo update.

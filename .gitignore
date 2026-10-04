@@ -36,3 +36,8 @@ pnpm-debug.log*
 # Machine-generated audit details; concise results are tracked in reports/qa.md.
 reports/*.json
 accessibility-report.json
+reports/photo-candidates/
+reports/menu-contact-sheet.jpg
+
+reports/menu-desktop.png
+reports/menu-mobile.png

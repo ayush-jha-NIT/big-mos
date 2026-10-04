@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/privacy-policy",
     "/terms",
+    "/photo-credits",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
     changeFrequency: path === "/menu" ? "weekly" : "monthly",

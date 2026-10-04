@@ -1,6 +1,7 @@
 import { outlets } from "@/data/outlets";
 import { menuCategories, menuItems } from "@/data/menu";
 import { siteUrl } from "@/lib/seo";
+import { getMenuPhoto } from "@/data/menu-photos";
 export function JsonLd({ data }: { data: unknown }) {
   return (
     <script
@@ -51,6 +52,7 @@ export function MenuSchema() {
             .map((i) => ({
               "@type": "MenuItem",
               name: i.name,
+              image: `${siteUrl}${getMenuPhoto(i).src}`,
               suitableForDiet: "https://schema.org/VegetarianDiet",
               offers: {
                 "@type": "Offer",

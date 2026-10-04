@@ -27,6 +27,15 @@ const {
   isDeliveryOpen,
 } = require("../src/lib/ordering.ts");
 const { sanitizeCart } = require("../src/store/cart.ts");
+const { getMenuPhoto } = require("../src/data/menu-photos.ts");
+for (const item of menuItems) {
+  const photo = getMenuPhoto(item);
+  assert(
+    fs.existsSync(path.resolve(__dirname, "../public", photo.src.slice(1))),
+    `Missing photo: ${item.name}`,
+  );
+  assert(photo.alt.includes(item.name));
+}
 assert.equal(new Set(menuItems.map((i) => i.id)).size, menuItems.length);
 assert(
   menuItems.every(

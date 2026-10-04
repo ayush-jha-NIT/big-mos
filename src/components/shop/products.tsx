@@ -4,6 +4,9 @@ import { menuCategories, menuItems } from "@/data/menu";
 import type { MenuItem } from "@/types/menu";
 import { useCart } from "@/store/cart";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
+import { getMenuPhoto } from "@/data/menu-photos";
 export const favourites = [
   "crunchy-veg",
   "white-sauce-pasta",
@@ -13,8 +16,66 @@ export const favourites = [
 export function ProductCard({ item }: { item: MenuItem }) {
   const add = useCart((s) => s.add);
   const [added, setAdded] = useState(false);
+  const photo = getMenuPhoto(item);
   return (
     <article className="product-card">
+      <div className="relative -mx-6 -mt-6 mb-5 aspect-[4/3] overflow-hidden rounded-t-3xl bg-[var(--brand-cream)]">
+        {item.category === "combo" ? (
+          <div className="grid h-full grid-cols-[2fr_1fr] gap-1">
+            <div className="relative">
+              <Image
+                src={
+                  item.id.includes("veggie-crunch")
+                    ? "/menu/veggie-pizza.webp"
+                    : "/menu/burger.webp"
+                }
+                alt={
+                  item.id.includes("veggie-crunch")
+                    ? "Vegetarian pizza — representative serving"
+                    : "Vegetarian burger — representative serving"
+                }
+                fill
+                sizes="(max-width:640px) 66vw, 20vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="grid grid-rows-2 gap-1">
+              <div className="relative">
+                <Image
+                  src={
+                    item.id.includes("cold-coffee")
+                      ? "/menu/cold-coffee.webp"
+                      : item.id.includes("mojito")
+                        ? "/menu/mojito.webp"
+                        : "/menu/coffee.webp"
+                  }
+                  alt="Combo drink — representative serving"
+                  fill
+                  sizes="(max-width:640px) 33vw, 10vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative">
+                <Image
+                  src="/menu/fries.webp"
+                  alt="Fries — representative serving"
+                  fill
+                  sizes="(max-width:640px) 33vw, 10vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <Image
+            src={photo.src}
+            alt={photo.alt}
+            fill
+            sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
+            className="object-cover"
+          />
+        )}
+      </div>
       <div className="flex items-center justify-between gap-3">
         <span className="veg-label">● Pure veg</span>
         {favourites.includes(item.id) && <span className="pill">Mo’s favourite</span>}
@@ -101,6 +162,12 @@ export function MenuBrowser() {
       </div>
       <p className="mb-5 text-sm text-neutral-600">
         {filtered.length} items · All prices in INR · 100% vegetarian
+      </p>
+      <p className="mb-6 text-xs text-neutral-600">
+        Photos show representative servings; actual presentation may vary.{" "}
+        <Link href="/photo-credits" className="underline">
+          Photo credits
+        </Link>
       </p>
       <div className="product-grid">
         {filtered.map((item) => (

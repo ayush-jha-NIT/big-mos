@@ -91,6 +91,9 @@ export function Footer() {
             <Link className="transition hover:text-white" href="/terms">
               Terms
             </Link>
+            <Link className="transition hover:text-white" href="/photo-credits">
+              Photo credits
+            </Link>
           </div>
         </div>
       </Container>

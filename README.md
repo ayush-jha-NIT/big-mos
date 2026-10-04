@@ -28,3 +28,9 @@ Vercel project creation was attempted and rejected with HTTP 403 for both availa
 ## Automated checks
 
 `npm run test:data` runs ordering/data boundary tests. `npm run test:browser` runs responsive and ordering interactions, including timer/pause, touch swipe and reduced motion. `npm run test:accessibility` uses Playwright and axe-core; `npm run test:performance` uses Playwright and Lighthouse. Browser tooling must be installed or resolved via `PLAYWRIGHT_MODULE`, `AXE_SCRIPT` and `LIGHTHOUSE_CLI`. CI runs build/data, browser and accessibility checks on pushes and pull requests.
+
+## Menu photography
+
+All 70 items use reviewed representative food photos, with 44 optimized WebP assets self-hosted under `public/menu`. Variants may share a photograph. Combo cards show the main dish, drink and fries together; bag lines also show thumbnails. Original photographers, source pages, licenses and adaptation notices are retained in `public/menu/sources.json`, `public/menu/LICENSE.md` and the public `/photo-credits` page. Share-alike photo licenses apply to their respective image assets. The photographs do not claim to show actual Big Mo’s dishes.
+
+`scripts/import-menu-photos.py` can recreate missing files from the reviewed manifest using Pillow. It never reruns image searches. `test:data` verifies every menu item has a local photo, and browser QA checks all menu images decode successfully.

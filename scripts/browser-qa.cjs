@@ -24,6 +24,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
       "/contact",
       "/privacy-policy",
       "/terms",
+      "/photo-credits",
       "/bag",
       "/checkout",
     ]) {
@@ -37,6 +38,20 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
     }
   }
   await page.goto(base + "/menu");
+  await page.evaluate(() =>
+    document.querySelectorAll(".product-card img").forEach((img) => {
+      img.loading = "eager";
+    }),
+  );
+  await page.waitForFunction(
+    () =>
+      [...document.querySelectorAll(".product-card img")].length >= 70 &&
+      [...document.querySelectorAll(".product-card img")].every(
+        (img) => img.complete && img.naturalWidth > 0,
+      ),
+    null,
+    { timeout: 60000 },
+  );
   await page.getByLabel("Find your next favourite").fill("Crunchy Veg");
   await page.getByRole("button", { name: "Add to Bag +" }).first().click();
   await page.goto(base + "/bag");
@@ -172,7 +187,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
   await touchPage.close();
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: 36 responsive route checks; persistence; quantities; validation; pickup/delivery WhatsApp messages; gallery; exact ₹299 boundary; carousel timer/pause; mobile navigation and bag counter; corrupted storage; SEO and 404; no runtime errors.",
+    "PASS: 39 responsive route checks; all 70 menu photos load; persistence; quantities; validation; pickup/delivery WhatsApp messages; gallery; exact ₹299 boundary; carousel timer/pause; mobile navigation and bag counter; corrupted storage; SEO and 404; no runtime errors.",
   );
   await browser.close();
 })().catch((e) => {

@@ -63,7 +63,7 @@ export function PageHero({
                   "@type": "ListItem",
                   position: index + 1,
                   name: item.label,
-                  item: `${siteUrl}${item.href || ({ About: "/about", Gallery: "/gallery", Outlets: "/outlets", Contact: "/contact", Menu: "/menu", Prayagraj: "/outlets/prayagraj", Haldwani: "/outlets/haldwani", "Privacy Policy": "/privacy-policy", Terms: "/terms" } as Record<string, string>)[item.label] || "/"}`,
+                  item: `${siteUrl}${item.href || ({ About: "/about", Gallery: "/gallery", Outlets: "/outlets", Contact: "/contact", Menu: "/menu", Prayagraj: "/outlets/prayagraj", Haldwani: "/outlets/haldwani", "Privacy Policy": "/privacy-policy", Terms: "/terms", "Photo credits": "/photo-credits" } as Record<string, string>)[item.label] || "/"}`,
                 }),
               ),
             }}

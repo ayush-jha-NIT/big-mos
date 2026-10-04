@@ -25,6 +25,12 @@ export default function Home() {
           The little joys that make an ordinary day delicious.
         </p>
         <FeaturedProducts />
+        <p className="mt-4 text-xs text-neutral-600">
+          Representative food photos.{" "}
+          <Link href="/photo-credits" className="underline">
+            Photo credits
+          </Link>
+        </p>
         <Link className="mt-7 inline-block font-bold text-red-600" href="/menu">
           See the full menu →
         </Link>

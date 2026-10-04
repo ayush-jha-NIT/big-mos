@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
+import { getMenuPhoto } from "@/data/menu-photos";
 import { useCart, cartLines } from "@/store/cart";
 import { Button, buttonStyles } from "@/components/ui/button";
 import { FeaturedProducts } from "./products";
@@ -27,11 +29,20 @@ export function Bag() {
                 className="panel flex flex-wrap items-center justify-between gap-4"
                 key={item.id}
               >
-                <div>
-                  <h2 className="font-bold">{item.name}</h2>
-                  <p>
-                    ₹{item.price} each · ₹{item.price * n}
-                  </p>
+                <div className="flex items-center gap-4">
+                  <Image
+                    src={getMenuPhoto(item).src}
+                    alt={getMenuPhoto(item).alt}
+                    width={80}
+                    height={80}
+                    className="h-20 w-20 shrink-0 rounded-xl object-cover"
+                  />
+                  <div>
+                    <h2 className="font-bold">{item.name}</h2>
+                    <p>
+                      ₹{item.price} each · ₹{item.price * n}
+                    </p>
+                  </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <button
