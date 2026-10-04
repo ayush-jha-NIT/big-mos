@@ -1,28 +1,55 @@
-import type { Metadata } from "next";
-
 import { PageHero } from "@/components/layout";
-
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Contact Cafe Big Mo's for outlet information and general enquiries.",
-};
-
+import { Container } from "@/components/ui/container";
+import { OutletDetails } from "@/components/shop/outlet-details";
+import { JsonLd } from "@/components/shop/schema";
+import { faqs } from "@/data/faq";
+import { pageMetadata } from "@/lib/seo";
+export const metadata = pageMetadata(
+  "Contact & FAQs",
+  "Contact Big Mo’s in Prayagraj and Haldwani. Ask about orders, pickup, delivery, service areas and vegetarian food.",
+  "/contact",
+);
 export default function Page() {
   return (
     <main>
       <PageHero
-        eyebrow="Talk to us"
-        title="Contact"
-        description="Contact Cafe Big Mo's for outlet information and general enquiries."
+        title="Let’s talk food."
+        description="Questions, cravings or plans for a visit? Call +91 79061 23442 or message us on WhatsApp."
         breadcrumbs={[{ label: "Contact" }]}
+        actions={
+          <>
+            <a className="category selected" href="tel:+917906123442">
+              Call Big Mo’s
+            </a>
+            <a className="category selected" href="https://wa.me/917906123442">
+              Chat on WhatsApp ↗
+            </a>
+          </>
+        }
       />
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
-            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
-          </p>
+      <Container className="py-16">
+        <OutletDetails />
+        <h2 className="section-title mt-16">A few things you might ask.</h2>
+        <div className="space-y-3">
+          {faqs.map((f) => (
+            <details className="panel" key={f.question}>
+              <summary className="cursor-pointer font-bold">{f.question}</summary>
+              <p className="mt-4 leading-7 text-neutral-600">{f.answer}</p>
+            </details>
+          ))}
         </div>
-      </section>
+      </Container>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
+          })),
+        }}
+      />
     </main>
   );
 }

@@ -11,6 +11,8 @@ import { buttonStyles } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
 
+import { useCart, cartLines } from "@/store/cart";
+
 const navigation = [
   { label: "Home", href: "/" },
   { label: "Menu", href: "/menu" },
@@ -27,6 +29,7 @@ function isActivePath(pathname: string, href: string) {
 
 export function Header() {
   const pathname = usePathname();
+  const count = cartLines(useCart((s) => s.items)).reduce((sum, l) => sum + l.quantity, 0);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -55,11 +58,8 @@ export function Header() {
           className="flex shrink-0 items-center gap-3 rounded-xl focus-visible:outline-none"
           aria-label="Cafe Big Mo's home"
         >
-          <BrandMark
-  priority
-  className="h-14 w-auto sm:h-16"
-/>
-          <span className="hidden font-display text-lg leading-none tracking-tight sm:block">
+          <BrandMark priority className="h-14 w-auto sm:h-16" />
+          <span className="font-display hidden text-lg leading-none tracking-tight sm:block">
             CAFE <span className="text-[var(--brand-yellow)]">BIG MO&apos;S</span>
           </span>
         </Link>
@@ -92,10 +92,10 @@ export function Header() {
           >
             <ShoppingBag size={19} aria-hidden="true" />
             <span
-              className="absolute -right-1 -top-1 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-[var(--brand-yellow)] px-1 text-[10px] font-extrabold text-[var(--brand-black)]"
-              aria-label="0 items in bag"
+              className="absolute -top-1 -right-1 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-[var(--brand-yellow)] px-1 text-[10px] font-extrabold text-[var(--brand-black)]"
+              aria-label={`${count} items in bag`}
             >
-              0
+              {count}
             </span>
           </Link>
 

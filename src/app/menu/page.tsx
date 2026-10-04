@@ -1,28 +1,26 @@
-import type { Metadata } from "next";
-
 import { PageHero } from "@/components/layout";
-
-export const metadata: Metadata = {
-  title: "Menu",
-  description: "Browse Cafe Big Mo's pure vegetarian menu. Full category filtering and ordering arrive in Part 5.",
-};
-
+import { Container } from "@/components/ui/container";
+import { MenuBrowser } from "@/components/shop/products";
+import { pageMetadata } from "@/lib/seo";
+import { MenuSchema } from "@/components/shop/schema";
+export const metadata = pageMetadata(
+  "Good food. Great prices.",
+  "Explore our complete pure vegetarian menu, from crunchy burgers to creamy coffees.",
+  "/menu",
+  false,
+);
 export default function Page() {
   return (
     <main>
+      <MenuSchema />
       <PageHero
-        eyebrow="Eat at Big Mo's"
-        title="Menu"
-        description="Browse Cafe Big Mo's pure vegetarian menu. Full category filtering and ordering arrive in Part 5."
+        title="Good food. Great prices."
+        description="Explore our complete pure vegetarian menu, from crunchy burgers to creamy coffees."
         breadcrumbs={[{ label: "Menu" }]}
       />
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
-            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
-          </p>
-        </div>
-      </section>
+      <Container className="py-14">
+        <MenuBrowser />
+      </Container>
     </main>
   );
 }

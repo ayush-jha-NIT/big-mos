@@ -1,4 +1,4 @@
-import { Instagram, MapPin, Phone } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 
 import { BrandMark } from "@/components/ui/brand-mark";
@@ -15,7 +15,7 @@ const quickLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-[var(--brand-black)] pb-24 pt-14 text-white sm:pb-10 sm:pt-16">
+    <footer className="bg-[var(--brand-black)] pt-14 pb-24 text-white sm:pt-16 sm:pb-10">
       <Container>
         <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.3fr_0.8fr_1fr] lg:gap-16">
           <div>
@@ -75,13 +75,9 @@ export function Footer() {
                 <MapPin className="mt-0.5 shrink-0" size={17} aria-hidden="true" />
                 <span>Haldwani, Uttarakhand</span>
               </a>
-              <p className="pt-1 text-xs uppercase tracking-[0.18em] text-white/42">
+              <p className="pt-1 text-xs tracking-[0.18em] text-white/42 uppercase">
                 Online delivery: 11 AM – 9 PM
               </p>
-              <div className="flex items-center gap-2 pt-1">
-                <Instagram size={17} aria-hidden="true" />
-                <span>Social link will be connected when provided.</span>
-              </div>
             </div>
           </div>
         </div>

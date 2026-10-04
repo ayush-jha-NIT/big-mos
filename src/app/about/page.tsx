@@ -1,28 +1,52 @@
-import type { Metadata } from "next";
-
-import { PageHero } from "@/components/layout";
-
-export const metadata: Metadata = {
-  title: "About Big Mo's",
-  description: "Meet Cafe Big Mo's and the story behind its value-focused, pure vegetarian cafe experience.",
-};
-
+import { PageHero, CTASection } from "@/components/layout";
+import { Container } from "@/components/ui/container";
+import { cafeProfile } from "@/data/cafe";
+import { pageMetadata } from "@/lib/seo";
+export const metadata = pageMetadata(
+  "Our story",
+  "Discover Cafe Big Mo’s, established in mid-2024 in Tagore Town, Prayagraj. Pure vegetarian food and pocket-friendly experiences.",
+  "/about",
+);
 export default function Page() {
   return (
     <main>
       <PageHero
+        title="Big heart. Big Mo’s."
         eyebrow="Our story"
-        title="About Big Mo's"
-        description="Meet Cafe Big Mo's and the story behind its value-focused, pure vegetarian cafe experience."
-        breadcrumbs={[{ label: "About Big Mo's" }]}
+        image="/outlets/prayagraj/interior-corridor.webp"
+        imageAlt="Prayagraj cafe interior"
+        breadcrumbs={[{ label: "About" }]}
       />
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="max-w-2xl text-base leading-7 text-[var(--brand-muted)]">
-            This route is connected to the global Cafe Big Mo&apos;s layout. Its complete page-specific implementation belongs to a later project part.
-          </p>
+      <Container className="py-16">
+        <h2 className="section-title">Good food should be for everyone.</h2>
+        <p className="max-w-4xl text-lg leading-9 text-neutral-600">{cafeProfile.about}</p>
+        <div className="my-12 grid gap-5 md:grid-cols-3">
+          {[
+            "100% pure vegetarian",
+            "Pocket-friendly, every day",
+            "Modern spaces. Open kitchen.",
+          ].map((s) => (
+            <div key={s} className="panel text-xl font-bold">
+              {s}
+            </div>
+          ))}
         </div>
-      </section>
+        <h2 className="section-title">Our journey</h2>
+        <ol className="space-y-6 border-l-4 border-yellow-400 pl-6">
+          {cafeProfile.milestones.map((m) => (
+            <li className="panel" key={m.title}>
+              <p className="eyebrow">{m.period}</p>
+              <h3 className="my-3 text-2xl font-bold">{m.title}</h3>
+              <p className="leading-7 text-neutral-600">{m.description}</p>
+            </li>
+          ))}
+        </ol>
+      </Container>
+      <CTASection
+        title="Come be part of the story."
+        primaryLabel="Find an outlet"
+        primaryHref="/outlets"
+      />
     </main>
   );
 }

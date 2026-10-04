@@ -1,44 +1,26 @@
-# Cafe Big Mo's
+# Cafe Big Mo’s
 
-Next.js storefront for Cafe Big Mo's.
+Next.js 16, TypeScript and Tailwind storefront for the Prayagraj and Haldwani cafes.
 
-## Development
+## Run and verify
 
-```bash
-npm install
+```
+npm ci
 npm run dev
-```
-
-## Verification
-
-```bash
-npm run lint
-npm run typecheck
-npm run build
-```
-
-Or run all checks:
-
-```bash
 npm run verify
+npm run start
 ```
 
-## Implementation status
+Implemented: responsive home carousel (5-second slides, pause/hold/swipe, reduced motion), full supplied menu with search/categories, persistent Zustand bag, quantity editing, validated delivery/pickup checkout, WhatsApp order formatter, about/timeline, filtered gallery/lightbox, outlet pages, contact/FAQ, privacy/terms, metadata, restaurant/menu/FAQ/breadcrumb JSON-LD, robots and sitemap.
 
-- Part 0: project foundation — complete
-- Part 1: assets + brand design system — complete
-- Part 2 onward: global layout, data, home, menu, cart, checkout and production pages
+Checkout opens a prepared message to +91 79061 23442. It does not send a message automatically or collect payment. Orders require cafe confirmation. Free delivery starts at a food subtotal of ₹299; fees below that are confirmed by the cafe because no fee was supplied. Delivery requests are for 11 AM–9 PM IST and the local service area.
 
-## Part 1 assets
+## Browser QA
 
-Real supplied photography is organized by outlet:
+Install Playwright in your tooling environment and run `scripts/browser-qa.cjs` against a production server. Set `PLAYWRIGHT_MODULE` to its package path if it is not locally installed, `QA_URL` for the server URL, and `QA_BROWSER_CHANNEL` for an installed browser (default: msedge). The script checks all routes at 390/768/1440px, cart persistence/quantities, invalid checkout, intercepted WhatsApp order contents, gallery and the ₹299 delivery boundary. No order is sent during QA.
 
-```text
-public/
-├── branding/logo.webp
-└── outlets/
-    ├── prayagraj/
-    └── haldwani/
-```
+## Production / Vercel
 
-Images are optimized to WebP for production use. The original supplied source images are not duplicated inside the repository.
+Import `ayush-jha-NIT/big-mos` into Vercel as a Next.js project; install `npm ci`, build `npm run build`. Set `NEXT_PUBLIC_SITE_URL` to the real HTTPS domain before building so canonical URLs, sitemap and structured data use it. Vercel’s production URL environment variable is used when available; local builds fall back to localhost. Public pages are statically rendered. Bag and checkout are excluded from indexing.
+
+No Big Mo’s project is currently linked in the connected Vercel account. Deployment and production Lighthouse results require a deployed URL. No customer quotations or current ratings are fabricated: home links to the two outlets’ Google Maps reviews. Exact Haldwani street address, delivery fee below ₹299 and social links were not supplied. The original visual reference is not present in this repository; the site follows the existing brand palette and supplied cafe photography.
